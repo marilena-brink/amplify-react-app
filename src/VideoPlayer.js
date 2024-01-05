@@ -1,5 +1,5 @@
 import React from "react";
-import * as dashjs from "dash.js";
+import * as dashjs from 'dashjs';
 export default class VideoPlayer extends React.Component {
   state = {};
   componentDidUpdate() {
