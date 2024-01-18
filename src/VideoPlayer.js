@@ -3,7 +3,7 @@ import * as dashjs from 'dashjs';
 export default class VideoPlayer extends React.Component {
   state = {};
   componentDidUpdate() {
-      const url = "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd";
+      const url = "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd";
       const video = this.player;
       const dashjs = dashjs.MediaPlayer().create();
       dashjs.initialize(video, url, true);
