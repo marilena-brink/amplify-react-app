@@ -39,7 +39,7 @@
 
 .dash-video-player {
   display: flex; /* macht den Container flexibel */
-  flex-direction: row; /* richtet die Elemente horizontal aus */
+  flex-direction: column; /* richtet die Elemente horizontal aus */
   align-items: center; /* zentriert die Elemente vertikal */
   justify-content: center; /* zentriert die Elemente horizontal */
 }
