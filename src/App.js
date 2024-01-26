@@ -75,7 +75,7 @@ export default function VideoPlayer3() {
           .then((response) => {
             console.log(response.data);
             // Aktualisiere die Zusatndsvariable für die URL mit der Antwort
-            setSrc(response.data);
+            setSrc(url);
           })
           .catch((error) => {
             console.error(error);
