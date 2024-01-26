@@ -115,6 +115,10 @@ export default function VideoPlayer3() {
     };
   }, [src]); // src bedeutet, dass diese Hook nur ausgeführt wird, wenn src sich ändert
 
+  function reloadPage() {
+    window.location.reload();
+  }
+
   return (
     <div className="dash-video-player ">
       <div>
@@ -132,6 +136,15 @@ export default function VideoPlayer3() {
           preload="auto"
           autoPlay={true}
         />
+      </div>
+      <div>
+        <button onClick={reloadPage}>Reload Stream</button>;
+      </div>
+      <div className="errorDiv">
+        <p>
+          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen
+        </p>
+        <p>Bitte lade den Stream mit dem obigen Button neu</p>
       </div>
     </div>
   );
