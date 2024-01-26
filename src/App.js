@@ -8,7 +8,7 @@ export default function VideoPlayer3() {
   class NotFoundException extends Error {
     constructor(message) {
       super(message);
-      this.name = "NotFoundException";
+      this.name = "ResourceNotFoundException";
     }
   }
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
