@@ -5,6 +5,12 @@ import * as dashjs from "dashjs";
 import axios from "axios";
 
 export default function VideoPlayer3() {
+  class NotFoundException extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "NotFoundException";
+    }
+  }
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
   // Erstelle einen Kinesis Video Client
