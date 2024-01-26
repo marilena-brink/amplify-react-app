@@ -22,70 +22,72 @@ export default function VideoPlayer3() {
   let kinesisVideoArchivedMedia;
 
   // Definiere den Stream Namen
-const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
-let dashUrl;
+  const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
+  const [src, setSrc] = useState(null);
 
-// Definiere eine asynchrone Funktion, die das Endpoint und die URL holt
-async function getDashUrl() {
-  try {
-    // Hole das Endpoint mit GetDataEndpoint
-    const dataEndpointResponse = await kinesisVideo
-      .getDataEndpoint({
-        APIName: "GET_DASH_STREAMING_SESSION_URL",
-        StreamName: streamName,
-      })
-      .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
-    const dataEndpoint = dataEndpointResponse.DataEndpoint;
+  // Definiere eine asynchrone Funktion, die das Endpoint und die URL holt
+  async function getDashUrl() {
+    try {
+      // Hole das Endpoint mit GetDataEndpoint
+      const dataEndpointResponse = await kinesisVideo
+        .getDataEndpoint({
+          APIName: "GET_DASH_STREAMING_SESSION_URL",
+          StreamName: streamName,
+        })
+        .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+      const dataEndpoint = dataEndpointResponse.DataEndpoint;
 
-    // Setze das Endpoint für den Kinesis Video Archived Media Client
-    kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
-      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
-      region: "eu-west-1",
-      endpoint: dataEndpoint,
-    });
+      // Setze das Endpoint für den Kinesis Video Archived Media Client
+      kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
+        accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+        secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+        region: "eu-west-1",
+        endpoint: dataEndpoint,
+      });
 
-    // Hole die MPEG-DASH URL mit GetDASHStreamingSessionURL
-    const dashUrlResponse = await kinesisVideoArchivedMedia
-      .getDASHStreamingSessionURL({
-        StreamName: streamName,
-        DisplayFragmentTimestamp: "ALWAYS",
-      })
-      .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
-    dashUrl = dashUrlResponse.DASHStreamingSessionURL;
+      // Hole die MPEG-DASH URL mit GetDASHStreamingSessionURL
+      const dashUrlResponse = await kinesisVideoArchivedMedia
+        .getDASHStreamingSessionURL({
+          StreamName: streamName,
+          DisplayFragmentTimestamp: "ALWAYS",
+        })
+        .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+      dashUrl = dashUrlResponse.DASHStreamingSessionURL;
 
-    // Gib die URL zurück
-    return dashUrl;
-  } catch (error) {
-    // Fange Fehler ab und gib sie aus
-    console.error(error);
-  }
-}
-
-// Rufe die asynchrone Funktion auf und verwende die URL
-getDashUrl().then((url) => {
-  console.log("URL: " + url);
-
-  // Öffne die URL in einem Media Player deiner Wahl
-  // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
-  axios
-    .get(url)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
+      // Gib die URL zurück
+      return dashUrl;
+    } catch (error) {
+      // Fange Fehler ab und gib sie aus
       console.error(error);
-    });
-});
+    }
+  }
 
-const videoRef = useRef(null);
-const playerRef = useRef(null);
-console.log("dashurl: ", dashUrl); // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
-const src = dashUrl; // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
+  // Rufe die asynchrone Funktion auf und verwende die URL
+  getDashUrl().then((url) => {
+    console.log("URL: " + url);
+
+    //Aktualisiere die Zusatndsvariable für die URL
+    setSrc(url);
+
+    // Öffne die URL in einem Media Player deiner Wahl
+    // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
+    axios
+      .get(url)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+  const videoRef = useRef(null);
+  const playerRef = useRef(null);
+  console.log("URL bidde komm schoooon: \n", src); // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
 
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (src && videoRef.current) {
       const video = videoRef.current;
 
       playerRef.current = dashjs.MediaPlayer().create();
