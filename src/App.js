@@ -23,6 +23,7 @@ export default function VideoPlayer3() {
 
   // Definiere den Stream Namen
   const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
+  const dashUrl = "nix";
 
   // Hole das Endpoint mit GetDataEndpoint
   kinesisVideo.getDataEndpoint(
@@ -55,7 +56,7 @@ export default function VideoPlayer3() {
             return;
           }
           // Speichere die MPEG-DASH URL
-          const dashUrl = response.DASHStreamingSessionURL;
+          dashUrl = response.DASHStreamingSessionURL;
 
           console.log("URL: " + dashUrl);
 
@@ -76,6 +77,7 @@ export default function VideoPlayer3() {
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
+  console.log("dashurl: ", dashUrl);
   const src = dashUrl;
 
   useEffect(() => {
