@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import logo from "./onlyFishLogo.jpg";
 import * as dashjs from "dashjs";
@@ -52,7 +52,7 @@ export default function VideoPlayer3() {
           DisplayFragmentTimestamp: "ALWAYS",
         })
         .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
-      dashUrl = dashUrlResponse.DASHStreamingSessionURL;
+      const dashUrl = dashUrlResponse.DASHStreamingSessionURL;
 
       // Gib die URL zurück
       return dashUrl;
