@@ -23,7 +23,7 @@ export default function VideoPlayer3() {
 
   // Definiere den Stream Namen
   const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
-  const dashUrl = "nix";
+  let dashUrl;
 
   // Hole das Endpoint mit GetDataEndpoint
   kinesisVideo.getDataEndpoint(
