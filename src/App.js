@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import logo from "./onlyFishLogo.jpg";
 import * as dashjs from "dashjs";
+import axios from "axios";
 
 export default function VideoPlayer3() {
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
-  const axios = require("axios");
-
-  console.log(process.env.REACT_APP_AWS_ACCESS_KEY)
+  console.log(process.env.REACT_APP_AWS_ACCESS_KEY);
 
   // Erstelle einen Kinesis Video Client
   const kinesisVideo = new AWS.KinesisVideo({
@@ -84,7 +83,6 @@ export default function VideoPlayer3() {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   console.log("URL bidde komm schoooon: \n", src); // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
-
 
   useEffect(() => {
     if (src && videoRef.current) {
