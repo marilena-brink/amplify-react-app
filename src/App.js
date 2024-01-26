@@ -9,7 +9,6 @@ export default function VideoPlayer3() {
   const axios = require("axios");
 
   console.log(process.env.REACT_APP_AWS_ACCESS_KEY)
-  console.log(process.env.REACT_APP_AWS_SECRET_KEY)
 
   // Erstelle einen Kinesis Video Client.
   const kinesisVideo = new AWS.KinesisVideo({
@@ -38,6 +37,8 @@ export default function VideoPlayer3() {
       }
       // Setze das Endpoint für den Kinesis Video Archived Media Client
       kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
+        accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+        secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
         region: "eu-west-1",
         endpoint: response.DataEndpoint,
       });
