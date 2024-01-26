@@ -62,28 +62,35 @@ export default function VideoPlayer3() {
   }
 
   // Rufe die asynchrone Funktion auf und verwende die URL
-  getDashUrl().then((url) => {
-    console.log("URL: " + url);
+  // Verschiebe diese Logik in eine useEffect-Hook, die nur einmal ausgeführt wird
+  useEffect(() => {
+    getDashUrl()
+      .then((url) => {
+        console.log("URL: " + url);
 
-    //Aktualisiere die Zusatndsvariable für die URL
-    setSrc(url);
-
-    // Öffne die URL in einem Media Player deiner Wahl
-    // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
-    axios
-      .get(url)
-      .then((response) => {
-        console.log(response.data);
+        // Öffne die URL in einem Media Player deiner Wahl
+        // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
+        axios
+          .get(url)
+          .then((response) => {
+            console.log(response.data);
+            // Aktualisiere die Zusatndsvariable für die URL mit der Antwort
+            setSrc(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []); // Leeres Array bedeutet, dass diese Hook nur einmal ausgeführt wird
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
-  console.log("URL bidde komm schoooon: \n", src); // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
+  console.log("URL bidde komm schoooon: \n", src);
 
+  // Füge die src-Variable als Abhängigkeit für diese useEffect-Hook hinzu
   useEffect(() => {
     if (src && videoRef.current) {
       const video = videoRef.current;
@@ -112,7 +119,7 @@ export default function VideoPlayer3() {
         playerRef.current = null;
       }
     };
-  }, []);
+  }, [src]); // src bedeutet, dass diese Hook nur ausgeführt wird, wenn src sich ändert
 
   return (
     <div className="dash-video-player ">
