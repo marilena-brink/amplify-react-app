@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.dash-video-player {
+  display: flex; /* macht den Container flexibel */
+  flex-direction: row; /* richtet die Elemente horizontal aus */
+  align-items: center; /* zentriert die Elemente vertikal */
+  justify-content: center; /* zentriert die Elemente horizontal */
+}
+
+.videoContainer {
+  width: 50%; /* reduziert die Breite auf 50% */
+  display: flex; /* macht den Container flexibel */
+  justify-content: center; /* zentriert das Video horizontal */
+}

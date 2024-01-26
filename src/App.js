@@ -7,8 +7,6 @@ import axios from "axios";
 export default function VideoPlayer3() {
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
-  console.log(process.env.REACT_APP_AWS_ACCESS_KEY);
-
   // Erstelle einen Kinesis Video Client
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
@@ -66,15 +64,12 @@ export default function VideoPlayer3() {
   useEffect(() => {
     getDashUrl()
       .then((url) => {
-        console.log("URL: " + url);
-
         // Öffne die URL in einem Media Player deiner Wahl
         // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
         axios
           .get(url)
           .then((response) => {
-            console.log(response.data);
-            // Aktualisiere die Zusatndsvariable für die URL mit der Antwort
+            // Aktualisiere die Zusatndsvariable für die URL
             setSrc(url);
           })
           .catch((error) => {
@@ -88,7 +83,6 @@ export default function VideoPlayer3() {
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
-  console.log("URL bidde komm schoooon: \n", src);
 
   // Füge die src-Variable als Abhängigkeit für diese useEffect-Hook hinzu
   useEffect(() => {
