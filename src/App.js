@@ -56,6 +56,17 @@ export default function VideoPlayer3() {
     } catch (error) {
       // Fange Fehler ab und gib sie aus
       console.error(error);
+      if (error instanceof ReferenceError) {
+        console.log("ReferenceError detect");
+      } else {
+        console.log("help thats not it");
+      }
+      //TODO: if ResourceNotFoundEception show {Livestream not online}
+      /*if (error instanceof NotFoundException) {
+        alert(
+          "Der Stream ist nicht verfügbar. Bitte versuchen Sie es später erneut."
+        );
+      }*/
     }
   }
 
