@@ -138,7 +138,7 @@ export default function VideoPlayer3() {
         />
       </div>
       <div>
-        <button onClick={reloadPage}>Reload Stream</button>;
+        <button onClick={reloadPage}>Reload Stream</button>
       </div>
       <div className="errorDiv">
         <p>
