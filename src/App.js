@@ -56,7 +56,7 @@ export default function VideoPlayer3() {
     } catch (error) {
       // Fange Fehler ab und gib sie aus
       console.error(error);
-      if (error instanceof ReferenceError) {
+      if (error instanceof ResourceNotFoundException) {
         console.log("ReferenceError detect");
       } else {
         console.log("help thats not it");
