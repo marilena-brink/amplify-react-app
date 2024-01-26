@@ -10,7 +10,7 @@ export default function VideoPlayer3() {
 
   console.log(process.env.REACT_APP_AWS_ACCESS_KEY)
 
-  // Erstelle einen Kinesis Video Client.
+  // Erstelle einen Kinesis Video Client
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
