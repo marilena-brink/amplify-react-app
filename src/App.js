@@ -22,63 +22,67 @@ export default function VideoPlayer3() {
   let kinesisVideoArchivedMedia;
 
   // Definiere den Stream Namen
-  const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
-  let dashUrl;
+const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
+let dashUrl;
 
-  // Hole das Endpoint mit GetDataEndpoint
-  kinesisVideo.getDataEndpoint(
-    {
-      APIName: "GET_DASH_STREAMING_SESSION_URL",
-      StreamName: streamName,
-    },
-    (err, response) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      // Setze das Endpoint für den Kinesis Video Archived Media Client
-      kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
-        accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-        secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
-        region: "eu-west-1",
-        endpoint: response.DataEndpoint,
-      });
+// Definiere eine asynchrone Funktion, die das Endpoint und die URL holt
+async function getDashUrl() {
+  try {
+    // Hole das Endpoint mit GetDataEndpoint
+    const dataEndpointResponse = await kinesisVideo
+      .getDataEndpoint({
+        APIName: "GET_DASH_STREAMING_SESSION_URL",
+        StreamName: streamName,
+      })
+      .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+    const dataEndpoint = dataEndpointResponse.DataEndpoint;
 
-      // Hole die MPEG-DASH URL mit GetDASHStreamingSessionURL
-      kinesisVideoArchivedMedia.getDASHStreamingSessionURL(
-        {
-          StreamName: streamName,
-          DisplayFragmentTimestamp: "ALWAYS",
-        },
-        (err, response) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          // Speichere die MPEG-DASH URL
-          dashUrl = response.DASHStreamingSessionURL;
+    // Setze das Endpoint für den Kinesis Video Archived Media Client
+    kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+      region: "eu-west-1",
+      endpoint: dataEndpoint,
+    });
 
-          console.log("URL: " + dashUrl);
+    // Hole die MPEG-DASH URL mit GetDASHStreamingSessionURL
+    const dashUrlResponse = await kinesisVideoArchivedMedia
+      .getDASHStreamingSessionURL({
+        StreamName: streamName,
+        DisplayFragmentTimestamp: "ALWAYS",
+      })
+      .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+    dashUrl = dashUrlResponse.DASHStreamingSessionURL;
 
-          // Öffne die URL in einem Media Player deiner Wahl
-          // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
-          axios
-            .get(dashUrl)
-            .then((response) => {
-              console.log(response.data);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }
-      );
-    }
-  );
+    // Gib die URL zurück
+    return dashUrl;
+  } catch (error) {
+    // Fange Fehler ab und gib sie aus
+    console.error(error);
+  }
+}
 
-  const videoRef = useRef(null);
-  const playerRef = useRef(null);
-  console.log("dashurl: ", dashUrl);
-  const src = dashUrl;
+// Rufe die asynchrone Funktion auf und verwende die URL
+getDashUrl().then((url) => {
+  console.log("URL: " + url);
+
+  // Öffne die URL in einem Media Player deiner Wahl
+  // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
+  axios
+    .get(url)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+const videoRef = useRef(null);
+const playerRef = useRef(null);
+console.log("dashurl: ", dashUrl); // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
+const src = dashUrl; // Dies wird immer noch leer sein, weil die asynchrone Funktion noch nicht abgeschlossen ist
+
 
   useEffect(() => {
     if (videoRef.current) {
