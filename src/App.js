@@ -76,9 +76,7 @@ export default function VideoPlayer3() {
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
-  const src =
-    "https://b-d00b5c86.kinesisvideo.eu-west-1.amazonaws.com/dash/v1/getDASHManifest.mpd?SessionToken=CiCgou2AuwlHlTlyL2r5F30080OXi0ZqGGxEZc5mgGjPDxIQHVD1uth8NnjZldNBZcEv8hoZ5rhB_8T37cq1PWFSXFNsgyDgvAB1Iq08yyIgaTcUuYzrRpW2WjMQnfPEvrpmuA1NhMvZaANlayfIQrs~";
-  //"https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd";
+  const src = dashUrl;
 
   useEffect(() => {
     if (videoRef.current) {
