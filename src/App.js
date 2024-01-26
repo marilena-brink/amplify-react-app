@@ -8,6 +8,9 @@ export default function VideoPlayer3() {
 
   const axios = require("axios");
 
+  console.log(process.env.REACT_APP_AWS_ACCESS_KEY)
+  console.log(process.env.REACT_APP_AWS_SECRET_KEY)
+
   // Erstelle einen Kinesis Video Client
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
