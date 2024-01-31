@@ -61,23 +61,28 @@ export default function VideoPlayer3() {
 
     } catch (error) {
       // If errors occur, print them in the console
-      console.error(error);
+      console.log("------")
+      console.log(error);
+      console.log("-------")
       //TODO: if ResourceNotFoundEception show {Livestream not online}
       if (error instanceof ResourceNotFoundException) {
         console.log("ReferenceError detect");
-      } else {
+      } 
+      else if (error instanceof TypeError){
+        console.log("typeerror")
+      }
+      else {
         console.log("help thats not it");
       }
     }
   }
 
-  // Rufe die asynchrone Funktion auf und verwende die URL
-  // Verschiebe diese Logik in eine useEffect-Hook, die nur einmal ausgeführt wird
+  // Call async function to fetch DASH url
+  // TODO?: Verschiebe diese Logik in eine useEffect-Hook, die nur einmal ausgeführt wird
   useEffect(() => {
     getDashUrl()
       .then((url) => {
-        // Öffne die URL in einem Media Player deiner Wahl
-        // Zum Beispiel kannst du die URL mit axios anfordern und die Antwort ausgeben
+        // Open dash url in a video player. We chose axios
         axios
           .get(url)
           .then((response) => {
