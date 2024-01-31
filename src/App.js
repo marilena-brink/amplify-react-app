@@ -16,7 +16,7 @@ export default function VideoPlayer3() {
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,  // We used Amplify environment variables to store the IAM access credentials
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
     region: "eu-west-1",
   });
@@ -58,20 +58,17 @@ export default function VideoPlayer3() {
 
       // Return the DASH URL (Valid for 5 minutes)
       return dashUrl;
-
     } catch (error) {
       // If errors occur, print them in the console
-      console.log("------")
+      console.log("------");
       console.log(error);
-      console.log("-------")
+      console.log("-------");
       //TODO: if ResourceNotFoundEception show {Livestream not online}
       if (error.name === ResourceNotFoundException) {
         console.log("ReferenceError detect");
-      } 
-      else if (error instanceof TypeError){
-        console.log("typeerror")
-      }
-      else {
+      } else if (error instanceof TypeError) {
+        console.log("typeerror");
+      } else {
         console.log("help thats not it");
       }
     }
@@ -136,6 +133,8 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
+  function detect() {}
+
   return (
     <div className="dash-video-player ">
       <div>
@@ -155,11 +154,17 @@ export default function VideoPlayer3() {
         />
       </div>
       <div>
-        <button onClick={reloadPage}>Reload Stream</button>
+        <button className="button detect" onClick={detect}>
+          Detect fishies
+        </button>
+        <button className="button reload" onClick={reloadPage}>
+          Reload Stream
+        </button>
       </div>
-      <div className="errorDiv">
-        <p class="info_text">
-          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen <br/>
+      <div className="textDiv">
+        <p class="infoText reloadText">
+          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen{" "}
+          <br />
           Bitte lade den Stream mit dem obigen Button neu
         </p>
       </div>
