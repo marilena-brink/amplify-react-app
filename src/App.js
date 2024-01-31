@@ -104,6 +104,10 @@ export default function VideoPlayer3() {
             var div = document.getElementById("reload");
             div.style.display = "block";
           }
+          else if (error.response.status == 404){
+            var div = document.getElementById("notRunning");
+            div.style.display = "block";
+          }
         });
     }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
   }
