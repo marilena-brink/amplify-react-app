@@ -60,7 +60,11 @@ export default function VideoPlayer3() {
       return dashUrl;
     } catch (error) {
       // If errors occur, print them in the console
-      console.log("An error occured when getting dash url", error)
+      console.log("An error occured when getting dash url", error);
+      if (error.response.status == 404) {
+        var div = document.getElementById("notRunning");
+        div.style.display = "block";
+      }
     }
   }
 
@@ -102,10 +106,6 @@ export default function VideoPlayer3() {
           console.log("Error status: ", error.response.status);
           if (error.response.status == 403) {
             var div = document.getElementById("reload");
-            div.style.display = "block";
-          }
-          else if (error.response.status == 404){
-            var div = document.getElementById("notRunning");
             div.style.display = "block";
           }
         });
