@@ -60,17 +60,7 @@ export default function VideoPlayer3() {
       return dashUrl;
     } catch (error) {
       // If errors occur, print them in the console
-      console.log("------");
-      console.log(error);
-      console.log("-------");
-      //TODO: if ResourceNotFoundEception show {Livestream not online}
-      if (error.name === ResourceNotFoundException) {
-        console.log("ReferenceError detect");
-      } else if (error instanceof TypeError) {
-        console.log("typeerror");
-      } else {
-        console.log("help thats not it");
-      }
+      console.log("An error occured when getting dash url", error)
     }
   }
 
