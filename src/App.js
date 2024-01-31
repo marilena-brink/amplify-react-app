@@ -104,20 +104,16 @@ export default function VideoPlayer3() {
         .then(function (response) {
           // Wenn die Anfrage erfolgreich ist, speichere den Statuscode in einer Variablen
           let statusCode = response.status;
-          // Überprüfe, ob der Statuscode 403 ist
-          if (statusCode == 403) {
-            // Wenn ja, gib eine Nachricht aus, die den Fehler anzeigt
-            console.log("403 Error: Zugriff verweigert :(");
-            var div = document.getElementById("reload");
-            div.style.display = "block";
-          } else {
-            // Wenn nicht, gib eine Nachricht aus, die den Statuscode anzeigt
-            console.log("Statuscode: " + statusCode);
-          }
+          console.log("Statuscode: " + statusCode);
         })
         .catch(function (error) {
           // Wenn die Anfrage fehlschlägt, gib eine Nachricht aus, die den Fehler anzeigt
           console.log("Anfrage fehlgeschlagen: " + error);
+          console.log("Error status: ", error.response.status);
+          if (error.response.status == 403) {
+            var div = document.getElementById("reload");
+            div.style.display = "block";
+          }
         });
     }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
   }
