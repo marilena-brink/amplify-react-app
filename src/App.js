@@ -3,6 +3,7 @@ import "./App.css";
 import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
+import { SlInfo } from "react-icons/sl";
 
 export default function VideoPlayer3() {
   class ResourceNotFoundException extends Error {
@@ -179,6 +180,7 @@ export default function VideoPlayer3() {
         </button>
       </div>
       <div className="textDiv">
+        <SlInfo className="infoLogo" />
         <p id="reload" class="infoText reloadText">
           Hey, the stream was stopped to conserve data &#128531;. <br />
           Please click the reload button above to continue watching fishies

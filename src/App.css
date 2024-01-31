@@ -18,6 +18,8 @@ body {
 .textDiv {
   background-color: aliceblue;
   margin-top: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .infoText {
@@ -25,6 +27,11 @@ body {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.infoLogo {
+  font-size: 24px;
+  margin-left: 10px;
 }
 
 .reloadText {
