@@ -84,7 +84,10 @@ export default function VideoPlayer3() {
           .get(url)
           .then((response) => {
             // Aktualisiere die Zusatndsvariable für die URL
+            console.log("Axios GET response:");
+            console.log(response);
             setSrc(url);
+            checkFor403(url);
           })
           .catch((error) => {
             console.error(error);
@@ -94,6 +97,30 @@ export default function VideoPlayer3() {
         console.error(error);
       });
   }, []); // Leeres Array bedeutet, dass diese Hook nur einmal ausgeführt wird
+
+  function checkFor403(url) {
+    setInterval(function () {
+      // Rufe die axios.get-Funktion auf, um eine HTTP-Anfrage an die URL zu senden
+      axios
+        .get(url)
+        .then(function (response) {
+          // Wenn die Anfrage erfolgreich ist, speichere den Statuscode in einer Variablen
+          let statusCode = response.status;
+          // Überprüfe, ob der Statuscode 403 ist
+          if (statusCode == 403) {
+            // Wenn ja, gib eine Nachricht aus, die den Fehler anzeigt
+            console.log("403 Error: Zugriff verweigert :(");
+          } else {
+            // Wenn nicht, gib eine Nachricht aus, die den Statuscode anzeigt
+            console.log("Statuscode: " + statusCode);
+          }
+        })
+        .catch(function (error) {
+          // Wenn die Anfrage fehlschlägt, gib eine Nachricht aus, die den Fehler anzeigt
+          console.log("Anfrage fehlgeschlagen: " + error);
+        });
+    }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
+  }
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
@@ -119,23 +146,6 @@ export default function VideoPlayer3() {
 
       playerRef.current.initialize(video, src, true);
       playerRef.current.attachView(video);
-
-      playerRef.current.on(
-        dashjs.MediaPlayer.events.STREAM_INITIALIZED,
-        function () {
-          // Get the DASH manifest object
-          var manifest = playerRef.current.getManifest();
-          // Get the expiration time of the session token
-          var expirationTime = new Date(manifest.Expires);
-          // Get the current time
-          var currentTime = new Date();
-          // Compare the times
-          if (currentTime >= expirationTime) {
-            // Display a message on the website
-            console.log("URL expired :( schnell lads neu du seggel");
-          }
-        }
-      );
     }
 
     return () => {
@@ -150,7 +160,9 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
-  function detect() {}
+  function detect() {
+    //TODO: detect fishies
+  }
 
   return (
     <div className="dash-video-player ">
