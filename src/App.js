@@ -61,10 +61,8 @@ export default function VideoPlayer3() {
     } catch (error) {
       // If errors occur, print them in the console
       console.log("An error occured when getting dash url", error);
-      if (error.response.status == 404) {
-        var div = document.getElementById("notRunning");
-        div.style.display = "block";
-      }
+      var div = document.getElementById("notRunning");
+      div.style.display = "block";
     }
   }
 
