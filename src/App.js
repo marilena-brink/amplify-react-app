@@ -85,8 +85,12 @@ export default function VideoPlayer3() {
           .then((response) => {
             // Aktualisiere die Zusatndsvariable für die URL
             setSrc(url);
+            if (response.status == 403) {
+              console.log("URL ist abgelaufen");
+            }
           })
           .catch((error) => {
+            console.log("Ein Fehler, hilfe");
             console.error(error);
           });
       })
