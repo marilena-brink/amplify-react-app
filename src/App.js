@@ -84,8 +84,6 @@ export default function VideoPlayer3() {
           .get(url)
           .then((response) => {
             // Aktualisiere die Zusatndsvariable für die URL
-            console.log("Axios GET response:");
-            console.log(response);
             setSrc(url);
             checkFor403(url);
           })
@@ -110,6 +108,8 @@ export default function VideoPlayer3() {
           if (statusCode == 403) {
             // Wenn ja, gib eine Nachricht aus, die den Fehler anzeigt
             console.log("403 Error: Zugriff verweigert :(");
+            var div = document.getElementById("reload");
+            div.style.display = "block";
           } else {
             // Wenn nicht, gib eine Nachricht aus, die den Statuscode anzeigt
             console.log("Statuscode: " + statusCode);
@@ -191,10 +191,14 @@ export default function VideoPlayer3() {
         </button>
       </div>
       <div className="textDiv">
-        <p class="infoText reloadText">
-          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen{" "}
-          <br />
-          Bitte lade den Stream mit dem obigen Button neu
+        <p id="reload" class="infoText reloadText">
+          Hey, the stream was stopped to conserve data &#128531;. <br />
+          Please click the reload button above to continue watching fishies
+          live.
+        </p>
+        <p id="notRunning" class="infoText notRunningText">
+          Hey, the stream is currently offline, the fishies are probably
+          sleeping &#128564;.
         </p>
       </div>
     </div>

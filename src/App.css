@@ -31,6 +31,10 @@ body {
   display: none;
 }
 
+.notRunningText {
+  display: none;
+}
+
 .App {
   text-align: center;
 }
