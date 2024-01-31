@@ -6,12 +6,8 @@ import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
 export default function VideoPlayer3() {
-  class ResourceNotFoundException extends Error {
-    constructor(message) {
-      super(message);
-      this.name = "ResourceNotFoundException";
-    }
-  }
+
+  // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
   // Create Kinesis Video Client instance with IAM user authentication
@@ -68,7 +64,6 @@ export default function VideoPlayer3() {
   }
 
   // Call async function to fetch DASH url
-  // TODO?: Verschiebe diese Logik in eine useEffect-Hook, die nur einmal ausgeführt wird
   useEffect(() => {
     getDashUrl()
       .then((url) => {
@@ -76,7 +71,7 @@ export default function VideoPlayer3() {
         axios
           .get(url)
           .then((response) => {
-            // Aktualisiere die Zusatndsvariable für die URL
+            // Update the src url variable and start the function to check for 403 errors.
             setSrc(url);
             checkFor403(url);
           })
@@ -89,18 +84,16 @@ export default function VideoPlayer3() {
       });
   }, []); // Leeres Array bedeutet, dass diese Hook nur einmal ausgeführt wird
 
+  // This function checks every 5 seconds, if the dash url is still valid (Dash URL last 5 mins until the authentication is expired)
   function checkFor403(url) {
     setInterval(function () {
-      // Rufe die axios.get-Funktion auf, um eine HTTP-Anfrage an die URL zu senden
       axios
         .get(url)
         .then(function (response) {
-          // Wenn die Anfrage erfolgreich ist, speichere den Statuscode in einer Variablen
-          let statusCode = response.status;
-          console.log("Statuscode: " + statusCode);
+          // Dont do anything if request returns response 
         })
         .catch(function (error) {
-          // Wenn die Anfrage fehlschlägt, gib eine Nachricht aus, die den Fehler anzeigt
+          // If the request fails, show info banner informing user that the stream was stopped
           console.log("Anfrage fehlgeschlagen: " + error);
           console.log("Error status: ", error.response.status);
           if (error.response.status == 403) {
@@ -108,20 +101,20 @@ export default function VideoPlayer3() {
             div.style.display = "block";
           }
         });
-    }, 5000); // 5000 Millisekunden entsprechen 5 Sekunden
+    }, 5000); // 5 Seconds interval
   }
 
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
-  // Füge die src-Variable als Abhängigkeit für diese useEffect-Hook hinzu
+  // Add the src-Variable as a dependency for the useEffect-Hook to start the video player
   useEffect(() => {
     if (src && videoRef.current) {
       const video = videoRef.current;
 
       playerRef.current = dashjs.MediaPlayer().create();
 
-      /* restart playback in muted mode when auto playback was not allowed by the browser */
+      // Restart playback in muted mode when auto playback was not allowed by the browser
       playerRef.current.on(
         dashjs.MediaPlayer.events.PLAYBACK_NOT_ALLOWED,
         function (data) {
@@ -143,7 +136,7 @@ export default function VideoPlayer3() {
         playerRef.current = null;
       }
     };
-  }, [src]); // src bedeutet, dass diese Hook nur ausgeführt wird, wenn src sich ändert
+  }, [src]); // Defining src here tells the hook to only run if the src variable changes (Only reload player if url changes)
 
   function reloadPage() {
     window.location.reload();
@@ -158,9 +151,11 @@ export default function VideoPlayer3() {
       <div>
         <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
       </div>
+
       <div hidden>
         <h1 id="header_title">Fishies Live</h1>
       </div>
+
       <div className="videoContainer" id="videoContainer">
         <video
           slot="media"
@@ -171,6 +166,7 @@ export default function VideoPlayer3() {
           autoPlay={true}
         />
       </div>
+
       <div>
         <button className="button detect" onClick={detect}>
           Detect fishies
@@ -179,6 +175,7 @@ export default function VideoPlayer3() {
           Reload Stream
         </button>
       </div>
+
       <div className="textDiv">
         <p id="reload" class="infoText reloadText">
           <SlInfo className="infoLogo" />
@@ -192,6 +189,8 @@ export default function VideoPlayer3() {
           sleeping &#128564;.
         </p>
       </div>
+
     </div>
+    
   );
 }
