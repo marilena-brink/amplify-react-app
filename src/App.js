@@ -158,7 +158,7 @@ export default function VideoPlayer3() {
       <div>
         <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
       </div>
-      <div>
+      <div hidden>
         <h1 id="header_title">Fishies Live</h1>
       </div>
       <div className="videoContainer" id="videoContainer">
