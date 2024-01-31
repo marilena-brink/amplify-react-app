@@ -85,12 +85,8 @@ export default function VideoPlayer3() {
           .then((response) => {
             // Aktualisiere die Zusatndsvariable für die URL
             setSrc(url);
-            if (response.status == 403) {
-              console.log("URL ist abgelaufen");
-            }
           })
           .catch((error) => {
-            console.log("Ein Fehler, hilfe");
             console.error(error);
           });
       })
@@ -123,6 +119,23 @@ export default function VideoPlayer3() {
 
       playerRef.current.initialize(video, src, true);
       playerRef.current.attachView(video);
+
+      playerRef.current.on(
+        dashjs.MediaPlayer.events.STREAM_INITIALIZED,
+        function () {
+          // Get the DASH manifest object
+          var manifest = playerRef.current.getManifest();
+          // Get the expiration time of the session token
+          var expirationTime = new Date(manifest.Expires);
+          // Get the current time
+          var currentTime = new Date();
+          // Compare the times
+          if (currentTime >= expirationTime) {
+            // Display a message on the website
+            console.log("URL expired :( schnell lads neu du seggel");
+          }
+        }
+      );
     }
 
     return () => {
