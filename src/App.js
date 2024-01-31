@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-import logo from "./onlyFishLogo.jpg";
+import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 
@@ -142,7 +142,7 @@ export default function VideoPlayer3() {
         <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
       </div>
       <div>
-        <h1>Fishies Live</h1>
+        <h1 id="header_title">Fishies Live</h1>
       </div>
       <div className="videoContainer" id="videoContainer">
         <video
@@ -158,10 +158,10 @@ export default function VideoPlayer3() {
         <button onClick={reloadPage}>Reload Stream</button>
       </div>
       <div className="errorDiv">
-        <p>
-          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen
+        <p class="info_text">
+          Hey der Stream ist abgelaufen weil wir Daten und Geld sparen wollen <br/>
+          Bitte lade den Stream mit dem obigen Button neu
         </p>
-        <p>Bitte lade den Stream mit dem obigen Button neu</p>
       </div>
     </div>
   );
