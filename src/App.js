@@ -13,34 +13,33 @@ export default function VideoPlayer3() {
   }
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
-  // Erstelle einen Kinesis Video Client
+  // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,  // We used Amplify environment variables to store the IAM access credentials
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
     region: "eu-west-1",
   });
 
-  // Erstelle einen Kinesis Video Archived Media Client
+  // Define Kinesis Archived Media Client variable
   let kinesisVideoArchivedMedia;
 
-  // Definiere den Stream Namen
-  const streamName = "OnlyFish"; // Ersetze mit deinem Stream Namen
+  // Set stream name, set initial states of src url null
+  const streamName = "OnlyFish";
   const [src, setSrc] = useState(null);
 
-  // Definiere eine asynchrone Funktion, die das Endpoint und die URL holt
+  // Async function to fetch the endpoint of the kinesis stream (Dash URL)
   async function getDashUrl() {
     try {
-      // Hole das Endpoint mit GetDataEndpoint
       const dataEndpointResponse = await kinesisVideo
         .getDataEndpoint({
           APIName: "GET_DASH_STREAMING_SESSION_URL",
           StreamName: streamName,
         })
-        .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+        .promise(); // Convert Callback-based function to a promise
       const dataEndpoint = dataEndpointResponse.DataEndpoint;
 
-      // Setze das Endpoint für den Kinesis Video Archived Media Client
+      // Set endpoint for Kinesis Video Archived Media Client
       kinesisVideoArchivedMedia = new AWS.KinesisVideoArchivedMedia({
         accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
         secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
@@ -48,19 +47,20 @@ export default function VideoPlayer3() {
         endpoint: dataEndpoint,
       });
 
-      // Hole die MPEG-DASH URL mit GetDASHStreamingSessionURL
+      // Get MPEG-DASH URL of the kinesis stream with GetDASHStreamingSessionURL
       const dashUrlResponse = await kinesisVideoArchivedMedia
         .getDASHStreamingSessionURL({
           StreamName: streamName,
           DisplayFragmentTimestamp: "ALWAYS",
         })
-        .promise(); // Konvertiere die Callback-basierte Funktion in ein Promise
+        .promise(); // Convert callback to promise
       const dashUrl = dashUrlResponse.DASHStreamingSessionURL;
 
-      // Gib die URL zurück
+      // Return the DASH URL (Valid for 5 minutes)
       return dashUrl;
+
     } catch (error) {
-      // Fange Fehler ab und gib sie aus
+      // If errors occur, print them in the console
       console.error(error);
       //TODO: if ResourceNotFoundEception show {Livestream not online}
       if (error instanceof ResourceNotFoundException) {
