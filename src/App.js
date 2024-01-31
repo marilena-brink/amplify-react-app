@@ -65,7 +65,7 @@ export default function VideoPlayer3() {
       console.log(error);
       console.log("-------")
       //TODO: if ResourceNotFoundEception show {Livestream not online}
-      if (error instanceof ResourceNotFoundException) {
+      if (error.name === ResourceNotFoundException) {
         console.log("ReferenceError detect");
       } 
       else if (error instanceof TypeError){
