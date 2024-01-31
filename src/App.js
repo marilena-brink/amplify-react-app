@@ -180,13 +180,14 @@ export default function VideoPlayer3() {
         </button>
       </div>
       <div className="textDiv">
-        <SlInfo className="infoLogo" />
         <p id="reload" class="infoText reloadText">
+          <SlInfo className="infoLogo" />
           Hey, the stream was stopped to conserve data &#128531;. <br />
           Please click the reload button above to continue watching fishies
           live.
         </p>
         <p id="notRunning" class="infoText notRunningText">
+          <SlInfo className="infoLogo" />
           Hey, the stream is currently offline, the fishies are probably
           sleeping &#128564;.
         </p>
