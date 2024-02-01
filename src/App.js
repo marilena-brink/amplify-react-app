@@ -4,17 +4,11 @@ import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
-import express from "express";
 
 export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
-
-  // Define website endpoint
   const website = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
-
-  //Define express app to handle requests
-  const app = express();
 
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
@@ -198,6 +192,7 @@ export default function VideoPlayer3() {
   }
 
   return (
+    
     <div className="dash-video-player ">
       <div>
         <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
