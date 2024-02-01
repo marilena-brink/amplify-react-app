@@ -8,7 +8,6 @@ import { SlInfo } from "react-icons/sl";
 export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
-  const website = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
 
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
@@ -142,6 +141,86 @@ export default function VideoPlayer3() {
   function reloadPage() {
     window.location.reload();
   }
+
+  //TODO: load Topic Subscrption
+  // Your topic ARN and token
+  const topicARN = "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
+  const token = "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
+
+  // Your endpoint URL
+  const endpoint = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
+
+  // A function to confirm the subscription
+  const confirmSubscription = (subscribeURL) => {
+    axios
+      .get(subscribeURL)
+      .then((response) => {
+        console.log("Subscription confirmed:", response.data);
+      })
+      .catch((error) => {
+        console.error("Subscription error:", error);
+      });
+  };
+
+  // A function to handle the notification
+  const handleNotification = (message) => {
+    // Do something with the message
+    console.log("Notification received:", message);
+  };
+
+  // A component to subscribe and listen to SNS messages
+  const SNSListener = () => {
+    const [subscribed, setSubscribed] = useState(false);
+
+    // Subscribe to the topic on mount
+    useEffect(() => {
+      const sns = new AWS.SNS();
+      sns.createPlatformEndpoint(
+        {
+          PlatformApplicationArn: topicARN,
+          Token: token,
+        },
+        (err, data) => {
+          if (err) {
+            console.error("Subscription error:", err);
+          } else {
+            console.log("Subscription success:", data);
+            setSubscribed(true);
+          }
+        }
+      );
+    }, []);
+
+    // Listen to the HTTP POST requests from SNS
+    useEffect(() => {
+      if (subscribed) {
+        axios.post(endpoint).then((response) => {
+          // Read the message type from the header
+          const messageType = response.headers["x-amz-sns-message-type"];
+          // Parse the JSON body
+          const message = JSON.parse(response.data);
+
+          // Handle the message type
+          switch (messageType) {
+            case "SubscriptionConfirmation":
+              // Confirm the subscription
+              confirmSubscription(message.SubscribeURL);
+              break;
+            case "Notification":
+              // Handle the notification
+              handleNotification(message);
+              break;
+            case "UnsubscribeConfirmation":
+              // Do nothing
+              break;
+            default:
+              // Unknown message type
+              console.error("Unknown message type:", messageType);
+          }
+        });
+      }
+    }, [subscribed]);
+  };
 
   //Function to manage fish detection by buttonClick
   function detect() {
