@@ -143,86 +143,50 @@ export default function VideoPlayer3() {
   }
 
   //TODO: load Topic Subscrption
-  // Your topic ARN and token
-  const topicARN =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
-  const token =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
+  const express = require("express");
+  const request = require("request");
+  // parse urlencoded request bodies into req.body
+  const bodyParser = require("body-parser");
+  const app = express();
+  const port = 8080;
 
-  // Your endpoint URL
-  const endpoint = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
-  // A function to confirm the subscription
-  const confirmSubscription = (subscribeURL) => {
-    axios
-      .get(subscribeURL)
-      .then((response) => {
-        console.log("Subscription confirmed:", response.data);
-      })
-      .catch((error) => {
-        console.error("Subscription error:", error);
-      });
-  };
+  app.post("/", (req, res) => {
+    let body = "";
 
-  // A function to handle the notification
-  const handleNotification = (message) => {
-    // Do something with the message
-    console.log("Notification received:", message);
-  };
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
 
-  // A component to subscribe and listen to SNS messages
-  const SNSListener = () => {
-    const [subscribed, setSubscribed] = useState(false);
+    req.on("end", () => {
+      let payload = JSON.parse(body);
 
-    // Subscribe to the topic on mount
-    useEffect(() => {
-      const sns = new AWS.SNS();
-      sns.createPlatformEndpoint(
-        {
-          PlatformApplicationArn: topicARN,
-          Token: token,
-        },
-        (err, data) => {
-          if (err) {
-            console.error("Subscription error:", err);
-          } else {
-            console.log("Subscription success:", data);
-            setSubscribed(true);
-          }
-        }
-      );
-    }, []);
+      if (payload.Type === "SubscriptionConfirmation") {
+        const promise = new Promise((resolve, reject) => {
+          const url = payload.SubscribeURL;
 
-    // Listen to the HTTP POST requests from SNS
-    useEffect(() => {
-      if (subscribed) {
-        axios.post(endpoint).then((response) => {
-          // Read the message type from the header
-          const messageType = response.headers["x-amz-sns-message-type"];
-          // Parse the JSON body
-          const message = JSON.parse(response.data);
+          request(url, (error, response) => {
+            if (!error && response.statusCode == 200) {
+              console.log("Yess! We have accepted the confirmation from AWS");
+              return resolve();
+            } else {
+              return reject();
+            }
+          });
+        });
 
-          // Handle the message type
-          switch (messageType) {
-            case "SubscriptionConfirmation":
-              // Confirm the subscription
-              confirmSubscription(message.SubscribeURL);
-              break;
-            case "Notification":
-              // Handle the notification
-              handleNotification(message);
-              break;
-            case "UnsubscribeConfirmation":
-              // Do nothing
-              break;
-            default:
-              // Unknown message type
-              console.error("Unknown message type:", messageType);
-          }
+        promise.then(() => {
+          res.end("ok");
         });
       }
-    }, [subscribed]);
-  };
+    });
+  });
+
+  app.listen(port, () =>
+    console.log("Example app listening on port " + port + "!")
+  );
 
   //Function to manage fish detection by buttonClick
   function detect() {
