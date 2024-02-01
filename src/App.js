@@ -6,9 +6,9 @@ import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
 export default function VideoPlayer3() {
-
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
+  const website = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
 
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
@@ -90,7 +90,7 @@ export default function VideoPlayer3() {
       axios
         .get(url)
         .then(function (response) {
-          // Dont do anything if request returns response 
+          // Dont do anything if request returns response
         })
         .catch(function (error) {
           // If the request fails, show info banner informing user that the stream was stopped
@@ -138,10 +138,55 @@ export default function VideoPlayer3() {
     };
   }, [src]); // Defining src here tells the hook to only run if the src variable changes (Only reload player if url changes)
 
+  //Function to reload the page if necessary
   function reloadPage() {
     window.location.reload();
   }
 
+  //Get Kinesis Detection messages
+  // Define the handler function for the subscription confirmation message
+  const handleSubscriptionConfirmation = async (message) => {
+    // Get the SubscribeURL from the message
+    const subscribeURL = message.SubscribeURL;
+
+    // Send a GET request to the SubscribeURL using axios
+    try {
+      const response = await axios.get(subscribeURL);
+      // Log the response
+      console.log(response.data);
+      console.log("Subscription confirmation successfull :)");
+    } catch (error) {
+      // Handle the error
+      console.error(error);
+    }
+  };
+
+  // Define the handler function for the HTTP POST request
+  const handlePostRequest = async (req, res) => {
+    // Get the message type from the request header
+    const messageType = req.headers["x-amz-sns-message-type"];
+
+    // Get the message body from the request
+    const message = req.body;
+
+    // Check the message type
+    if (messageType === "SubscriptionConfirmation") {
+      // Handle the subscription confirmation message
+      await handleSubscriptionConfirmation(message);
+    } else {
+      // Handle other message types
+      // ...
+      console.log("Message from AWS: ");
+      console.log(message);
+    }
+    // Send a 200 OK response
+    res.status(200).end();
+  };
+
+  // Listen for HTTP POST requests at the website
+  app.post(website, handlePostRequest);
+
+  //Function to manage fish detection by buttonClick
   function detect() {
     //TODO: detect fishies
   }
@@ -189,8 +234,6 @@ export default function VideoPlayer3() {
           sleeping &#128564;.
         </p>
       </div>
-
     </div>
-    
   );
 }
