@@ -144,8 +144,10 @@ export default function VideoPlayer3() {
 
   //TODO: load Topic Subscrption
   // Your topic ARN and token
-  const topicARN = "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
-  const token = "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
+  const topicARN =
+    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
+  const token =
+    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
 
   // Your endpoint URL
   const endpoint = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
