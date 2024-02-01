@@ -143,17 +143,6 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
-  // app.js
-  const express = require("express");
-  const listener = require("./listener.js"); // Importieren Sie die Datei listener.js aus demselben Verzeichnis
-  const app = express();
-
-  // Hier können Sie andere Routen oder Middleware für Ihre App definieren
-
-  app.listen(3000, () => {
-    console.log("App listening on port 3000");
-  });
-
   //Function to manage fish detection by buttonClick
   function detect() {
     //TODO: detect fishies
