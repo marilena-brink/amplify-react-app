@@ -10,7 +10,6 @@
     "axios": "^1.6.6",
     "dashjs": "^4.7.3",
     "dotenv": "^16.4.1",
-    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
