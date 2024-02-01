@@ -147,6 +147,7 @@ export default function VideoPlayer3() {
   }
 
   return (
+    
     <div className="dash-video-player ">
       <div>
         <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
