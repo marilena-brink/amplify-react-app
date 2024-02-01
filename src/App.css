@@ -5,7 +5,7 @@ html {
 
 body {
   background-image: url("bubbles.gif"), linear-gradient(#0d3761, #011b34);
-
+  background-attachment: fixed;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;
