@@ -142,87 +142,42 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
-  //TODO: load Topic Subscrption
-  // Your topic ARN and token
-  const topicARN =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
-  const token =
+  //TODO: Trying to setup confirmation
+  // Definiere die ARN der Subscription
+  const subscriptionArn =
     "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
 
-  // Your endpoint URL
-  const endpoint = "https://main.d21gm2x0mb4rew.amplifyapp.com/";
+  // Erstelle eine Funktion, um die SubscribeURL abzurufen
+  async function getSubscribeURL(subscriptionArn) {
+    // Rufe die SNS-ListSubscriptionsByTopic-API auf, um die Details der Subscription zu erhalten
+    const response = await axios.get(
+      `https://sns.eu-west-1.amazonaws.com/?Action=ListSubscriptionsByTopic&TopicArn=${subscriptionArn}&Version=2010-03-31`
+    );
+    // Extrahiere die SubscribeURL aus der XML-Antwort
+    const subscribeURL = response.data.match(
+      /<SubscribeURL>(.+?)<\/SubscribeURL>/
+    )[1];
+    // Gib die SubscribeURL zurück
+    console.log("Hier hat er glaub ich das confirmed:");
+    console.log(response);
+    console.log("----");
+    console.log("SubscribeURL");
+    console.log(subscribeURL);
+    return subscribeURL;
+  }
 
-  // A function to confirm the subscription
-  const confirmSubscription = (subscribeURL) => {
-    axios
-      .get(subscribeURL)
-      .then((response) => {
-        console.log("Subscription confirmed:", response.data);
-      })
-      .catch((error) => {
-        console.error("Subscription error:", error);
-      });
-  };
+  // Erstelle eine Funktion, um die Subscription zu bestätigen
+  async function confirmSubscription(subscriptionArn) {
+    // Rufe die getSubscribeURL-Funktion auf, um die SubscribeURL zu erhalten
+    const subscribeURL = await getSubscribeURL(subscriptionArn);
+    // Besuche die SubscribeURL mit einem HTTP-GET-Request
+    await axios.get(subscribeURL);
+    // Gib eine Erfolgsmeldung aus
+    console.log("Subscription confirmed");
+  }
 
-  // A function to handle the notification
-  const handleNotification = (message) => {
-    // Do something with the message
-    console.log("Notification received:", message);
-  };
-
-  // A component to subscribe and listen to SNS messages
-  const SNSListener = () => {
-    const [subscribed, setSubscribed] = useState(false);
-
-    // Subscribe to the topic on mount
-    useEffect(() => {
-      const sns = new AWS.SNS();
-      sns.createPlatformEndpoint(
-        {
-          PlatformApplicationArn: topicARN,
-          Token: token,
-        },
-        (err, data) => {
-          if (err) {
-            console.error("Subscription error:", err);
-          } else {
-            console.log("Subscription success:", data);
-            setSubscribed(true);
-          }
-        }
-      );
-    }, []);
-
-    // Listen to the HTTP POST requests from SNS
-    useEffect(() => {
-      if (subscribed) {
-        axios.post(endpoint).then((response) => {
-          // Read the message type from the header
-          const messageType = response.headers["x-amz-sns-message-type"];
-          // Parse the JSON body
-          const message = JSON.parse(response.data);
-
-          // Handle the message type
-          switch (messageType) {
-            case "SubscriptionConfirmation":
-              // Confirm the subscription
-              confirmSubscription(message.SubscribeURL);
-              break;
-            case "Notification":
-              // Handle the notification
-              handleNotification(message);
-              break;
-            case "UnsubscribeConfirmation":
-              // Do nothing
-              break;
-            default:
-              // Unknown message type
-              console.error("Unknown message type:", messageType);
-          }
-        });
-      }
-    }, [subscribed]);
-  };
+  // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
+  confirmSubscription(subscriptionArn);
 
   //Function to manage fish detection by buttonClick
   function detect() {
