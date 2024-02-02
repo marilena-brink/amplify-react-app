@@ -143,6 +143,7 @@ export default function VideoPlayer3() {
   }
 
   //TODO: Trying to setup confirmation
+  /*
   // Definiere die ARN der Subscription
   const subscriptionArn =
     "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
@@ -179,10 +180,27 @@ export default function VideoPlayer3() {
 
   // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
   confirmSubscription(subscriptionArn);
+  */
+  var sns = new AWS.SNS();
+
+  // subscribe
+  sns.subscribe({ topic: "topic", Protocol: "https" }, function (err, data) {
+    if (err) {
+      console.log(err); // an error occurred
+    } else {
+      console.log(data); // successful response - the body should be in the data
+    }
+  });
 
   //Function to manage fish detection by buttonClick
   function detect() {
     //TODO: detect fishies
+    const { execSync } = require("child_process");
+
+    const output = execSync(
+      'python -c "from aws_session import run_rekognition; print(run_rekognition())"'
+    ).toString();
+    console.log(output);
   }
 
   return (
