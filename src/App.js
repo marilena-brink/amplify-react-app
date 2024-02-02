@@ -181,7 +181,11 @@ export default function VideoPlayer3() {
   // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
   confirmSubscription(subscriptionArn);
   */
-  AWS.config.update({ region: "eu-west-1" });
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+    region: "eu-west-1",
+  });
   var sns = new AWS.SNS();
 
   // subscribe
