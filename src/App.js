@@ -184,13 +184,20 @@ export default function VideoPlayer3() {
   var sns = new AWS.SNS();
 
   // subscribe
-  sns.subscribe({ topic: "topic", Protocol: "https" }, function (err, data) {
-    if (err) {
-      console.log(err); // an error occurred
-    } else {
-      console.log(data); // successful response - the body should be in the data
+  sns.subscribe(
+    {
+      topic: "OnlyFishNotification",
+      Protocol: "https",
+      TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
+    },
+    function (err, data) {
+      if (err) {
+        console.log(err); // an error occurred
+      } else {
+        console.log(data); // successful response - the body should be in the data
+      }
     }
-  });
+  );
 
   //Function to manage fish detection by buttonClick
   function detect() {
