@@ -11,6 +11,7 @@ module.exports = {
       path: false,
       https: false,
       stream: false,
+      child_process: false,
       crypto: false,
     },
   },
