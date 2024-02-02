@@ -4,12 +4,11 @@ module.exports = {
   // Ihre anderen webpack-Optionen hier
   resolve: {
     fallback: {
-      http: require.resolve("stream-http"), // Fügen Sie einen Fallback für das http-Modul hinzu
+      http: false, // Fügen Sie einen Fallback für das http-Modul hinzu
       fs: false,
       tls: false,
       net: false,
       path: false,
-      zlib: require.resolve("zlib"),
       https: false,
       stream: false,
       crypto: false,
