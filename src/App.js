@@ -168,6 +168,7 @@ export default function VideoPlayer3() {
 
   // Erstelle eine Funktion, um die Subscription zu bestätigen
   async function confirmSubscription(subscriptionArn) {
+    console.log("confirming subscription...");
     // Rufe die getSubscribeURL-Funktion auf, um die SubscribeURL zu erhalten
     const subscribeURL = await getSubscribeURL(subscriptionArn);
     // Besuche die SubscribeURL mit einem HTTP-GET-Request
