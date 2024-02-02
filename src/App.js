@@ -181,6 +181,7 @@ export default function VideoPlayer3() {
   // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
   confirmSubscription(subscriptionArn);
   */
+  AWS.config.update({ region: "eu-west-1" });
   var sns = new AWS.SNS();
 
   // subscribe
