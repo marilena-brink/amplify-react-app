@@ -143,42 +143,42 @@ export default function VideoPlayer3() {
   }
 
   //TODO: Trying to setup confirmation
-  // Definiere die ARN der Subscription
-  const subscriptionArn =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
+  const express = require("express");
+  const router = express.Router();
+  const request = require("request");
+  var bodyParser = require("body-parser");
 
-  // Erstelle eine Funktion, um die SubscribeURL abzurufen
-  async function getSubscribeURL(subscriptionArn) {
-    // Rufe die SNS-ListSubscriptionsByTopic-API auf, um die Details der Subscription zu erhalten
-    const response = await axios.get(
-      `https://sns.eu-west-1.amazonaws.com/?Action=ListSubscriptionsByTopic&TopicArn=${subscriptionArn}&Version=2010-03-31`
-    );
-    // Extrahiere die SubscribeURL aus der XML-Antwort
-    const subscribeURL = response.data.match(
-      /<SubscribeURL>(.+?)<\/SubscribeURL>/
-    )[1];
-    // Gib die SubscribeURL zurück
-    console.log("Hier hat er glaub ich das confirmed:");
-    console.log(response);
-    console.log("----");
-    console.log("SubscribeURL");
-    console.log(subscribeURL);
-    return subscribeURL;
+  router.post("/", bodyParser.text(), handleSNSMessage);
+  module.exports = router;
+
+  var handleSubscriptionResponse = function (error, response) {
+    if (!error && response.statusCode == 200) {
+      console.log("Yess! We have accepted the confirmation from AWS");
+    } else {
+      throw new Error(`Unable to subscribe to given URL`);
+      //console.error(error)
+    }
+  };
+  async function handleSNSMessage(req, resp, next) {
+    try {
+      let payloadStr = req.body;
+      payload = JSON.parse(payloadStr);
+      console.log(JSON.stringify(payload));
+      if (req.header("x-amz-sns-message-type") === "SubscriptionConfirmation") {
+        const url = payload.SubscribeURL;
+        await request(url, handleSubscriptionResponse);
+      } else if (req.header("x-amz-sns-message-type") === "Notification") {
+        console.log(payload);
+        //process data here
+      } else {
+        throw new Error(`Invalid message type ${payload.Type}`);
+      }
+    } catch (err) {
+      console.error(err);
+      resp.status(500).send("Oops");
+    }
+    resp.send("Ok");
   }
-
-  // Erstelle eine Funktion, um die Subscription zu bestätigen
-  async function confirmSubscription(subscriptionArn) {
-    console.log("confirming subscription...");
-    // Rufe die getSubscribeURL-Funktion auf, um die SubscribeURL zu erhalten
-    const subscribeURL = await getSubscribeURL(subscriptionArn);
-    // Besuche die SubscribeURL mit einem HTTP-GET-Request
-    await axios.get(subscribeURL);
-    // Gib eine Erfolgsmeldung aus
-    console.log("Subscription confirmed");
-  }
-
-  // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
-  confirmSubscription(subscriptionArn);
 
   //Function to manage fish detection by buttonClick
   function detect() {
