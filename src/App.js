@@ -186,7 +186,6 @@ export default function VideoPlayer3() {
   // subscribe
   sns.subscribe(
     {
-      topic: "OnlyFishNotification",
       Protocol: "https",
       TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
     },
