@@ -143,10 +143,9 @@ export default function VideoPlayer3() {
   }
 
   //TODO: Trying to setup confirmation
-  /*
   // Definiere die ARN der Subscription
   const subscriptionArn =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:444bbf2b-5820-44f7-a712-f81db14cade5";
+    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
 
   // Erstelle eine Funktion, um die SubscribeURL abzurufen
   async function getSubscribeURL(subscriptionArn) {
@@ -180,7 +179,8 @@ export default function VideoPlayer3() {
 
   // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
   confirmSubscription(subscriptionArn);
-  */
+
+  /*
   AWS.config.update({
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
@@ -201,7 +201,7 @@ export default function VideoPlayer3() {
         console.log(data); // successful response - the body should be in the data
       }
     }
-  );
+  );*/
 
   //Function to manage fish detection by buttonClick
   function detect() {
