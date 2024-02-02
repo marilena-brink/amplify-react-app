@@ -51,5 +51,10 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.3"
+  },
+  "browser": {
+    "child_process": false,
+    "http": false,
+    "crypto": false
   }
 }
