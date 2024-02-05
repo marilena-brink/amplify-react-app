@@ -251,10 +251,14 @@ export default function VideoPlayer3() {
   }, []);*/
 
   //S3 Bucket part 2
+
   async function listBucket() {
     try {
       const result = await list({
         prefix: "data/RekognitionStreamProcessor/",
+        headers: {
+          Authorization: "test",
+        },
       });
       console.log("Hat geklappt :D");
       console.log(result);
