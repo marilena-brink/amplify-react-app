@@ -151,10 +151,11 @@ export default function VideoPlayer3() {
   //Function to toggle lights with IoT components
   function toggleLights() {
     const password = document.getElementById("passcode").value;
-    console.log(password);
+    const body = JSON.stringify({passcode: password});
+    console.log(body);
     fetch(
       "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws", 
-      {method: 'POST', body: JSON.stringify({passcode: password})}
+      {method: 'POST', body: body}
     )
       .then((response) => response.json())
       .then((data) => console.log(data));
