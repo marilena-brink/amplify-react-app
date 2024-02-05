@@ -8,15 +8,16 @@ import { SlInfo } from "react-icons/sl";
 //Connect to aws storage, to cennect to s3 bucket
 import { uploadData } from "aws-amplify/storage";
 
-try {
-  const result = await uploadData({
-    key: filename,
-    data: file,
-  }).result;
-  console.log("Succeeded: ", result);
-} catch (error) {
-  console.log("Error : ", error);
-}
+s3 = new AWS.S3();
+
+// Call S3 to list the buckets
+s3.listBuckets(function (err, data) {
+  if (err) {
+    console.log("Error", err);
+  } else {
+    console.log("Success", data.Buckets);
+  }
+});
 
 export default function VideoPlayer3() {
   // Import AWS SDK
