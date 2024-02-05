@@ -150,15 +150,17 @@ export default function VideoPlayer3() {
   }
 
   //Function to reload the page if necessary
-  /*
+  
   function toggleLights() {
+    /*
     const password = document.querySelector('input').value;
     console.log(password)
     fetch('https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=jason')
       .then((response) => response.json())
       .then((data) => console.log(data));
+    */
   }
-  */
+  
 
   //TODO: Trying to setup confirmation
   /*
