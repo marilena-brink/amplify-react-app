@@ -181,14 +181,13 @@ export default function VideoPlayer3() {
   function toggleLights() {
     const password = document.getElementById("passcode").value;
     const body = JSON.stringify({ passcode: password });
-    console.log(body);
+
     fetch(
       "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws",
       {
         method: "POST",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: body,
       }
@@ -199,6 +198,7 @@ export default function VideoPlayer3() {
 
   //Function to manage fish detection by buttonClick
   function detect() {
+
     //TODO: detect fishies
     fetch(
       "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
