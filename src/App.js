@@ -150,6 +150,7 @@ export default function VideoPlayer3() {
   }
 
   //Function to reload the page if necessary
+  /*
   function toggleLights() {
     const password = document.querySelector('input').value;
     console.log(password)
@@ -157,6 +158,7 @@ export default function VideoPlayer3() {
       .then((response) => response.json())
       .then((data) => console.log(data));
   }
+  */
 
   //TODO: Trying to setup confirmation
   /*
