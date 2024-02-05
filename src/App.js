@@ -173,7 +173,6 @@ export default function VideoPlayer3() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          mode: "no-cors",
         },
         body: body,
       }
