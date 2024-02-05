@@ -236,9 +236,13 @@ export default function VideoPlayer3() {
   useEffect(() => {
     async function loadImage() {
       try {
+        const s3Objects = await Storage.list({
+          prefix:
+            "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
+        });
         const imageKey =
           "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/28_5.599999904632568_heroimage.jpg";
-        console.log(imageKey);
+        console.log(s3Objects);
       } catch (error) {
         console.error("Fehler beim Laden des Bildes:", error);
       }
