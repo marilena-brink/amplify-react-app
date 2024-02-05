@@ -149,6 +149,7 @@ export default function VideoPlayer3() {
   }
 
   //TODO: Trying to setup confirmation
+  /*
   // Definiere die ARN der Subscription
   const subscriptionArn =
     "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
@@ -157,7 +158,10 @@ export default function VideoPlayer3() {
   async function getSubscribeURL(subscriptionArn) {
     // Rufe die SNS-ListSubscriptionsByTopic-API auf, um die Details der Subscription zu erhalten
     const response = await axios.get(
-      `https://sns.eu-west-1.amazonaws.com/?Action=ListSubscriptionsByTopic&TopicArn=${subscriptionArn}&Version=2010-03-31`
+      `https://sns.eu-west-1.amazonaws.com/?Action=ListSubscriptionsByTopic&TopicArn=${subscriptionArn}&Version=2010-03-31`,
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+      region: "eu-west-1",
     );
     // Extrahiere die SubscribeURL aus der XML-Antwort
     const subscribeURL = response.data.match(
@@ -185,8 +189,8 @@ export default function VideoPlayer3() {
 
   // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
   confirmSubscription(subscriptionArn);
+  */
 
-  /*
   var sns = new AWS.SNS();
 
   // subscribe
@@ -202,7 +206,7 @@ export default function VideoPlayer3() {
         console.log(data); // successful response - the body should be in the data
       }
     }
-  );*/
+  );
 
   //Function to manage fish detection by buttonClick
   function detect() {
