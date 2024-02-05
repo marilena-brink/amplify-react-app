@@ -18,7 +18,7 @@ export default function VideoPlayer3() {
     region: "eu-west-1",
   });
 
-  s3 = new AWS.S3();
+  var s3 = new AWS.S3();
 
   // Call S3 to list the buckets
   s3.listBuckets(function (err, data) {
