@@ -233,6 +233,7 @@ export default function VideoPlayer3() {
   */
 
   //S3 bucket
+  /*
   useEffect(() => {
     async function loadImage() {
       try {
@@ -240,8 +241,6 @@ export default function VideoPlayer3() {
           prefix:
             "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
         });
-        const imageKey =
-          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/28_5.599999904632568_heroimage.jpg";
         console.log(s3Objects);
       } catch (error) {
         console.error("Fehler beim Laden des Bildes:", error);
@@ -249,7 +248,28 @@ export default function VideoPlayer3() {
     }
 
     loadImage();
-  }, []);
+  }, []); */
+
+  // Erstelle eine neue Instanz von S3
+  const s3 = new AWS.S3();
+  // Erstelle die Parameter für die listObjectsV2-Methode
+  const params = {
+    Bucket: "my-bucket", // Ersetze dies mit dem Namen deines Buckets
+    Prefix:
+      "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
+  };
+  // Erstelle eine asynchrone Funktion, um die Objekte zu laden
+  async function loadImage() {
+    try {
+      // Rufe die listObjectsV2-Methode auf und warte auf die Antwort
+      const s3Objects = await s3.listObjectsV2(params).promise();
+      console.log(s3Objects);
+    } catch (error) {
+      console.error("Fehler beim Laden des Bildes:", error);
+    }
+  }
+  // Rufe die Funktion auf
+  loadImage();
 
   //S3 Bucket part 2
   /*
