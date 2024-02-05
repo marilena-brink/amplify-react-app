@@ -198,6 +198,7 @@ export default function VideoPlayer3() {
     {
       Protocol: "https",
       TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
+      Endpoint: "https://main.d21gm2x0mb4rew.amplifyapp.com/",
     },
     function (err, data) {
       if (err) {
