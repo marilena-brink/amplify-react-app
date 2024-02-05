@@ -1,6 +1,6 @@
 {
   "auth": {
-    "amplifyreactapp": {
+    "amplifyreactapp498ed0cb": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -9,19 +9,14 @@
           "SMS"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE",
-            "REQUIRES_NUMBERS",
-            "REQUIRES_SYMBOLS",
-            "REQUIRES_UPPERCASE"
-          ],
+          "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
-        "signupAttributes": [],
-        "socialProviders": [],
-        "usernameAttributes": [
+        "signupAttributes": [
           "EMAIL"
         ],
+        "socialProviders": [],
+        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]
