@@ -155,7 +155,13 @@ export default function VideoPlayer3() {
     console.log(body);
     fetch(
       "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws", 
-      {method: 'POST', body: body}
+      {method: 'POST', 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: body
+    }
     )
       .then((response) => response.json())
       .then((data) => console.log(data));
@@ -164,12 +170,15 @@ export default function VideoPlayer3() {
   //Function to manage fish detection by buttonClick
   function detect() {
     //TODO: detect fishies
-    const { execSync } = require("child_process");
-
-    const output = execSync(
-      'python -c "from rekognition import run_rekognition; print(run_rekognition())"'
-    ).toString();
-    console.log(output);
+    fetch('https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Lambda Function Response:', data);
+      })
+      .catch(error => {
+        console.error('Error calling Lambda Function:', error);
+      });
+  }
   }
 
   // Subscribe to SNS to get messages from successful fish detection
