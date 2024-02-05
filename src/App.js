@@ -8,17 +8,6 @@ import { SlInfo } from "react-icons/sl";
 //Connect to aws storage, to cennect to s3 bucket
 import { uploadData } from "aws-amplify/storage";
 
-s3 = new AWS.S3();
-
-// Call S3 to list the buckets
-s3.listBuckets(function (err, data) {
-  if (err) {
-    console.log("Error", err);
-  } else {
-    console.log("Success", data.Buckets);
-  }
-});
-
 export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
@@ -28,6 +17,29 @@ export default function VideoPlayer3() {
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
     region: "eu-west-1",
   });
+
+  s3 = new AWS.S3();
+
+  // Call S3 to list the buckets
+  s3.listBuckets(function (err, data) {
+    if (err) {
+      console.log("Error", err);
+    } else {
+      console.log("Success", data.Buckets);
+    }
+  });
+
+  /**
+   * try {
+    const result = await uploadData({
+      key: filename,
+      data: file,
+    }).result;
+    console.log("Succeeded: ", result);
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+   */
 
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
