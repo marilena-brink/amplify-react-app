@@ -4,7 +4,8 @@ import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
-import { Storage } from "aws-amplify";
+import { Storage } from "aws-amplify/storage";
+import { list } from "aws-amplify/storage";
 
 //Connect to aws storage, to cennect to s3 bucket
 import { uploadData } from "aws-amplify/storage";
@@ -187,7 +188,7 @@ export default function VideoPlayer3() {
       {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: body,
       }
@@ -198,7 +199,6 @@ export default function VideoPlayer3() {
 
   //Function to manage fish detection by buttonClick
   function detect() {
-
     //TODO: detect fishies
     fetch(
       "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
@@ -230,6 +230,8 @@ export default function VideoPlayer3() {
     }
   );
   */
+
+  //S3 bucket
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
@@ -246,6 +248,18 @@ export default function VideoPlayer3() {
 
     loadImage();
   }, []);
+
+  //S3 Bucket part 2
+  async function listBucket() {
+    try {
+      const result = await list({
+        prefix: "data/RekognitionStreamProcessor/",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  listBucket();
 
   return <div>{imageUrl && <img src={imageUrl} alt="Bild" />}</div>;
 
