@@ -16,7 +16,8 @@
         "amplifyreactapp45376d3e": {
           "bucketName": "rekognitionoutputbucket2",
           "region": "eu-west-1"
-        }
+        },
+        "friendlyImage": {}
       },
       "auth": {
         "amplifyreactapp": {}

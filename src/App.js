@@ -4,7 +4,7 @@ import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
-import { Storage } from "aws-amplify/storage";
+import Storage from "aws-amplify/storage";
 import { list } from "aws-amplify/storage";
 
 //Connect to aws storage, to cennect to s3 bucket
@@ -255,6 +255,8 @@ export default function VideoPlayer3() {
       const result = await list({
         prefix: "data/RekognitionStreamProcessor/",
       });
+      console.log("Hat geklappt :D");
+      console.log(result);
     } catch (error) {
       console.log(error);
     }

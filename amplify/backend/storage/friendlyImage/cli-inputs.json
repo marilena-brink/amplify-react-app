@@ -1,0 +1,14 @@
+{
+  "resourceName": "friendlyImage",
+  "policyUUID": "48334104",
+  "bucketName": "rekognitionoutputbucket2",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
