@@ -6,6 +6,7 @@ import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
 import { list } from "aws-amplify/storage";
+import { Storage } from "aws-amplify";
 
 //Connect to aws storage, to cennect to s3 bucket
 import { uploadData } from "aws-amplify/storage";
@@ -232,26 +233,22 @@ export default function VideoPlayer3() {
   */
 
   //S3 bucket
-  /*
-  const [imageUrl, setImageUrl] = useState(null);
-
   useEffect(() => {
     async function loadImage() {
       try {
         const imageKey =
           "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/28_5.599999904632568_heroimage.jpg";
-        const url = await Storage.get(imageKey);
-        setImageUrl(url);
+        console.log(imageKey);
       } catch (error) {
         console.error("Fehler beim Laden des Bildes:", error);
       }
     }
 
     loadImage();
-  }, []);*/
+  }, []);
 
   //S3 Bucket part 2
-
+  /*
   async function listBucket() {
     try {
       const result = await list({
@@ -265,6 +262,7 @@ export default function VideoPlayer3() {
     }
   }
   listBucket();
+  */
 
   return (
     <div className="dash-video-player ">
