@@ -148,21 +148,31 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
-  //Function to reload the page if necessary
-
+  //Function to toggle lights with IoT components
   function toggleLights() {
-
-    const password = document.getElementById('passcode').value;
+    const password = document.getElementById("passcode").value;
     console.log(password);
-    fetch('https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=' + password)
+    fetch(
+      "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=" +
+        password
+    )
       .then((response) => response.json())
       .then((data) => console.log(data));
-
   }
 
-  var sns = new AWS.SNS();
+  //Function to manage fish detection by buttonClick
+  function detect() {
+    //TODO: detect fishies
+    const { execSync } = require("child_process");
 
-  // subscribe
+    const output = execSync(
+      'python -c "from rekognition import run_rekognition; print(run_rekognition())"'
+    ).toString();
+    console.log(output);
+  }
+
+  // Subscribe to SNS to get messages from successful fish detection
+  var sns = new AWS.SNS();
   sns.subscribe(
     {
       Protocol: "https",
@@ -177,17 +187,6 @@ export default function VideoPlayer3() {
       }
     }
   );
-
-  //Function to manage fish detection by buttonClick
-  function detect() {
-    //TODO: detect fishies
-    const { execSync } = require("child_process");
-
-    const output = execSync(
-      'python -c "from aws_session import run_rekognition; print(run_rekognition())"'
-    ).toString();
-    console.log(output);
-  }
 
   return (
     <div className="dash-video-player ">
@@ -223,10 +222,8 @@ export default function VideoPlayer3() {
         </button>
 
         <label>
-        Passcode: <input id="passcode"/>
+          Passcode: <input id="passcode" />
         </label>
-        
-
       </div>
 
       <div className="textDiv">
