@@ -166,8 +166,7 @@ export default function VideoPlayer3() {
   sns.subscribe(
     {
       Protocol: "https",
-      TopicArn:
-        "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:d84869bf-9062-4de7-aee6-4e5d71eeee11",
+      TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
       Endpoint: "https://main.d21gm2x0mb4rew.amplifyapp.com/",
     },
     function (err, data) {
