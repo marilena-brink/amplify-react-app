@@ -4,7 +4,7 @@ import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
-import Storage from "aws-amplify/storage";
+
 import { list } from "aws-amplify/storage";
 
 //Connect to aws storage, to cennect to s3 bucket
@@ -232,6 +232,7 @@ export default function VideoPlayer3() {
   */
 
   //S3 bucket
+  /*
   const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
@@ -247,7 +248,7 @@ export default function VideoPlayer3() {
     }
 
     loadImage();
-  }, []);
+  }, []);*/
 
   //S3 Bucket part 2
   async function listBucket() {
