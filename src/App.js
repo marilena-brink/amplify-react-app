@@ -179,7 +179,7 @@ export default function VideoPlayer3() {
         console.error('Error calling Lambda Function:', error);
       });
   }
-  }
+  
 
   // Subscribe to SNS to get messages from successful fish detection
   var sns = new AWS.SNS();
