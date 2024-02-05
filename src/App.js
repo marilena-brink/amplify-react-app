@@ -264,8 +264,6 @@ export default function VideoPlayer3() {
   }
   listBucket();
 
-  return <div>{imageUrl && <img src={imageUrl} alt="Bild" />}</div>;
-
   return (
     <div className="dash-video-player ">
       <div>
