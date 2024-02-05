@@ -5,6 +5,19 @@ import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
+//Connect to aws storage, to cennect to s3 bucket
+import { uploadData } from "aws-amplify/storage";
+
+try {
+  const result = await uploadData({
+    key: filename,
+    data: file,
+  }).result;
+  console.log("Succeeded: ", result);
+} catch (error) {
+  console.log("Error : ", error);
+}
+
 export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
@@ -151,18 +164,19 @@ export default function VideoPlayer3() {
   //Function to toggle lights with IoT components
   function toggleLights() {
     const password = document.getElementById("passcode").value;
-    const body = JSON.stringify({passcode: password});
+    const body = JSON.stringify({ passcode: password });
     console.log(body);
     fetch(
-      "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws", 
-      {method: 'POST', 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "mode": "no-cors"
-      },
-      body: body
-    }
+      "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          mode: "no-cors",
+        },
+        body: body,
+      }
     )
       .then((response) => response.json())
       .then((data) => console.log(data));
@@ -171,16 +185,17 @@ export default function VideoPlayer3() {
   //Function to manage fish detection by buttonClick
   function detect() {
     //TODO: detect fishies
-    fetch('https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Lambda Function Response:', data);
+    fetch(
+      "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Lambda Function Response:", data);
       })
-      .catch(error => {
-        console.error('Error calling Lambda Function:', error);
+      .catch((error) => {
+        console.error("Error calling Lambda Function:", error);
       });
   }
-  
 
   // Subscribe to SNS to get messages from successful fish detection
   var sns = new AWS.SNS();
