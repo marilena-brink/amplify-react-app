@@ -148,6 +148,18 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
+  //Function to reload the page if necessary
+
+  function toggleLights() {
+    /*
+    const password = document.querySelector('input').value;
+    console.log(password)
+    fetch('https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=jason')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+    */
+  }
+
   var sns = new AWS.SNS();
 
   // subscribe
@@ -206,6 +218,12 @@ export default function VideoPlayer3() {
         <button className="button reload" onClick={reloadPage}>
           Reload Stream
         </button>
+
+        <button className="button light" onClick={toggleLights}>
+          Toggle Lights
+        </button>
+
+        <input>Password</input>
       </div>
 
       <div className="textDiv">
