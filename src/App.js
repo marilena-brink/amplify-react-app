@@ -255,7 +255,8 @@ export default function VideoPlayer3() {
   async function listBucket() {
     try {
       const result = await list({
-        prefix: "rekognitionoutputbucket2/data/RekognitionStreamProcessor/",
+        prefix:
+          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/",
       });
       console.log("Hat geklappt :D");
       console.log(result);
