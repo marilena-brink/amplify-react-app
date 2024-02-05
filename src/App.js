@@ -154,7 +154,7 @@ export default function VideoPlayer3() {
     console.log(password);
     fetch(
       "https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws", 
-      {body: JSON.stringify({passcode: password})}
+      {method: 'POST', body: JSON.stringify({passcode: password})}
     )
       .then((response) => response.json())
       .then((data) => console.log(data));
