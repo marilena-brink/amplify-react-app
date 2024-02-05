@@ -256,7 +256,7 @@ export default function VideoPlayer3() {
     try {
       const result = await list({
         prefix:
-          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/",
+          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
       });
       console.log("Hat geklappt :D");
       console.log(result);
