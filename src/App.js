@@ -4,6 +4,7 @@ import logo from "./onlyFishLogoTransparent.png";
 import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
+import { Storage } from "aws-amplify";
 
 //Connect to aws storage, to cennect to s3 bucket
 import { uploadData } from "aws-amplify/storage";
@@ -18,6 +19,8 @@ export default function VideoPlayer3() {
     region: "eu-west-1",
   });
 
+  // Hilfe scheiß s3
+  /*
   var s3 = new AWS.S3();
 
   // Call S3 to list the buckets
@@ -28,7 +31,7 @@ export default function VideoPlayer3() {
       console.log("Success", data.Buckets);
     }
   });
-
+  */
   /**
    * try {
     const result = await uploadData({
@@ -209,6 +212,7 @@ export default function VideoPlayer3() {
       });
   }
 
+  /*
   // Subscribe to SNS to get messages from successful fish detection
   var sns = new AWS.SNS();
   sns.subscribe(
@@ -225,6 +229,25 @@ export default function VideoPlayer3() {
       }
     }
   );
+  */
+  const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    async function loadImage() {
+      try {
+        const imageKey =
+          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/28_5.599999904632568_heroimage.jpg";
+        const url = await Storage.get(imageKey);
+        setImageUrl(url);
+      } catch (error) {
+        console.error("Fehler beim Laden des Bildes:", error);
+      }
+    }
+
+    loadImage();
+  }, []);
+
+  return <div>{imageUrl && <img src={imageUrl} alt="Bild" />}</div>;
 
   return (
     <div className="dash-video-player ">
