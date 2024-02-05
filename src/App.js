@@ -236,7 +236,7 @@ export default function VideoPlayer3() {
   useEffect(() => {
     async function loadImage() {
       try {
-        const s3Objects = await Storage.list({
+        const s3Objects = await list({
           prefix:
             "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
         });
