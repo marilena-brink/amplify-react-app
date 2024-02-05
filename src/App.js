@@ -9,6 +9,12 @@ export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
+  AWS.config.update({
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+    region: "eu-west-1",
+  });
+
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
@@ -181,11 +187,6 @@ export default function VideoPlayer3() {
   confirmSubscription(subscriptionArn);
 
   /*
-  AWS.config.update({
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
-    region: "eu-west-1",
-  });
   var sns = new AWS.SNS();
 
   // subscribe
