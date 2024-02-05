@@ -148,56 +148,14 @@ export default function VideoPlayer3() {
     window.location.reload();
   }
 
-  //TODO: Trying to setup confirmation
-  /*
-  // Definiere die ARN der Subscription
-  const subscriptionArn =
-    "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification";
-
-  // Erstelle eine Funktion, um die SubscribeURL abzurufen
-  async function getSubscribeURL(subscriptionArn) {
-    // Rufe die SNS-ListSubscriptionsByTopic-API auf, um die Details der Subscription zu erhalten
-    const response = await axios.get(
-      `https://sns.eu-west-1.amazonaws.com/?Action=ListSubscriptionsByTopic&TopicArn=${subscriptionArn}&Version=2010-03-31`,
-      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
-      region: "eu-west-1",
-    );
-    // Extrahiere die SubscribeURL aus der XML-Antwort
-    const subscribeURL = response.data.match(
-      /<SubscribeURL>(.+?)<\/SubscribeURL>/
-    )[1];
-    // Gib die SubscribeURL zurück
-    console.log("Hier hat er glaub ich das confirmed:");
-    console.log(response);
-    console.log("----");
-    console.log("SubscribeURL");
-    console.log(subscribeURL);
-    return subscribeURL;
-  }
-
-  // Erstelle eine Funktion, um die Subscription zu bestätigen
-  async function confirmSubscription(subscriptionArn) {
-    console.log("confirming subscription...");
-    // Rufe die getSubscribeURL-Funktion auf, um die SubscribeURL zu erhalten
-    const subscribeURL = await getSubscribeURL(subscriptionArn);
-    // Besuche die SubscribeURL mit einem HTTP-GET-Request
-    await axios.get(subscribeURL);
-    // Gib eine Erfolgsmeldung aus
-    console.log("Subscription confirmed");
-  }
-
-  // Rufe die confirmSubscription-Funktion auf, um die Subscription zu bestätigen
-  confirmSubscription(subscriptionArn);
-  */
-
   var sns = new AWS.SNS();
 
   // subscribe
   sns.subscribe(
     {
       Protocol: "https",
-      TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
+      TopicArn:
+        "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification:d84869bf-9062-4de7-aee6-4e5d71eeee11",
       Endpoint: "https://main.d21gm2x0mb4rew.amplifyapp.com/",
     },
     function (err, data) {
