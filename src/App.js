@@ -151,13 +151,13 @@ export default function VideoPlayer3() {
   //Function to reload the page if necessary
 
   function toggleLights() {
-    /*
-    const password = document.querySelector('input').value;
-    console.log(password)
-    fetch('https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=jason')
+
+    const password = document.getElementById('passcode').value;
+    console.log(password);
+    fetch('https://evkvgfgk6nqwoyqwfrbg6q77du0dglhv.lambda-url.eu-central-1.on.aws/?passcode=' + password)
       .then((response) => response.json())
       .then((data) => console.log(data));
-    */
+
   }
 
   var sns = new AWS.SNS();
@@ -223,7 +223,11 @@ export default function VideoPlayer3() {
           Toggle Lights
         </button>
 
-        <input>Password</input>
+        <label>
+        Passcode: <input id="passcode"/>
+        </label>
+        
+
       </div>
 
       <div className="textDiv">
