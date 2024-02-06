@@ -113,7 +113,7 @@ body {
   cursor: pointer;
 }
 
-#passcode {
+.passcode {
   color: aliceblue;
   width: 10%;
 }
