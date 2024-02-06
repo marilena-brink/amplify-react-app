@@ -243,9 +243,9 @@ export default function VideoPlayer3() {
       const s3Objects = await s3.listObjectsV2(params).promise();
       console.log(s3Objects);
       //s3Objects.Contents[1]["Key"]
-      console.log(s3Objects.Contents[1]["Key"]);
-      for (var entry in s3Objects.Contents) {
-        console.log(entry);
+      var images = s3Objects.Contents;
+      for (var i in images) {
+        console.log(images[i]["Key"]);
       }
     } catch (error) {
       console.error("Fehler beim Laden des Bildes:", error);
@@ -286,7 +286,7 @@ export default function VideoPlayer3() {
           Toggle Lights
         </button>
 
-        <label style="color: aliceblue;">
+        <label style={{ color: aliceblue }}>
           Passcode:{" "}
           <input
             className="passcode"
