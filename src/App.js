@@ -200,108 +200,109 @@ export default function VideoPlayer3() {
 
   const s3 = new AWS.S3();
 
+  //Get all current directorys from S3 bucket and save into list
+  var params_old_folders = {
+    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
+    Prefix: "data/RekognitionStreamProcessor/",
+  };
+  var currentBucketContent = [];
+  async function loadCurrentFolders() {
+    try {
+      console.log("loading current Folders...");
+      const directories = await s3.listObjectsV2(params_old_folders).promise();
+      console.log(directories);
+      var contents = directories.Contents;
+
+      for (var i in contents) {
+        console.log(contents[i]["Key"]);
+        var element = contents[i]["Key"];
+        element =
+          "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
+        console.log(element);
+        currentBucketContent.push(element);
+      }
+    } catch (error) {
+      console.error("Fehler beim Laden der Ordner:", error);
+    }
+  }
+
+  //Calling lambda function to detect
+  async function lamdaDetectFunction() {
+    try {
+      console.log("lamdaDetectFunction");
+      fetch(
+        "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Lambda Function Response:", data);
+        })
+        .catch((error) => {
+          console.error("Error calling Lambda Function:", error);
+        });
+    } catch (error) {
+      console.log(
+        "Error occured while loading the lamdaDetectFunction: ",
+        error
+      );
+    }
+  }
+
+  //AWS is making a new directory if it detected a fish/pet
+  //Get all current directorys from S3 bucket and compare with previous list
+  var params_folders = {
+    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
+    Prefix: "data/RekognitionStreamProcessor/",
+  };
+  var newBucketContent = [];
+  async function loadNewFolders() {
+    try {
+      console.log("loadNewFolders");
+      const directories = await s3.listObjectsV2(params_folders).promise();
+      console.log(directories);
+      var contents = directories.Contents;
+
+      for (var i in contents) {
+        console.log(contents[i]["Key"]);
+        var element = contents[i]["Key"];
+        element =
+          "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
+        console.log(element);
+        newBucketContent.push(element);
+      }
+    } catch (error) {
+      console.error("Fehler beim Laden der Ordner:", error);
+    }
+  }
+
+  //compare currentBucketContent and newBucketContent
+  //if new one -> get folder name and show images
+  //else -> no fishies detected
+  async function compareFolders() {
+    try {
+      console.log("compareFolders");
+      var difference = newBucketContent.filter(
+        (x) => !currentBucketContent.includes(x)
+      );
+      if (difference) {
+        console.log("da isch ja was schönes");
+        console.log(difference);
+      } else {
+        console.log("Da war nix, wie schaaad");
+      }
+    } catch (error) {
+      console.log("There was an error with compareFolders: ", error);
+    }
+  }
+
   //Function to manage fish detection by buttonClick
   function detect() {
-    //TODO: await
-    //Get all current directorys from S3 bucket and save into list
-    var params_old_folders = {
-      Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
-      Prefix: "data/RekognitionStreamProcessor/",
-    };
-    var currentBucketContent = [];
-    async function loadCurrentFolders() {
-      try {
-        console.log("loading current Folders...");
-        const directories = await s3
-          .listObjectsV2(params_old_folders)
-          .promise();
-        console.log(directories);
-        var contents = directories.Contents;
-
-        for (var i in contents) {
-          console.log(contents[i]["Key"]);
-          var element = contents[i]["Key"];
-          element =
-            "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
-          console.log(element);
-          currentBucketContent.push(element);
-        }
-      } catch (error) {
-        console.error("Fehler beim Laden der Ordner:", error);
-      }
-    }
-
-    //TODO: await
-    //Calling lambda function to detect
-    async function lamdaDetectFunction() {
-      try {
-        console.log("lamdaDetectFunction");
-        fetch(
-          "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Lambda Function Response:", data);
-          })
-          .catch((error) => {
-            console.error("Error calling Lambda Function:", error);
-          });
-      } catch (error) {
-        console.log(
-          "Error occured while loading the lamdaDetectFunction: ",
-          error
-        );
-      }
-    }
-
-    //TODO: await
-    //AWS is making a new directory if it detected a fish/pet
-    //Get all current directorys from S3 bucket and compare with previous list
-    var params_folders = {
-      Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
-      Prefix: "data/RekognitionStreamProcessor/",
-    };
-    var newBucketContent = [];
-    async function loadNewFolders() {
-      try {
-        console.log("loadNewFolders");
-        const directories = await s3.listObjectsV2(params_folders).promise();
-        console.log(directories);
-        var contents = directories.Contents;
-
-        for (var i in contents) {
-          console.log(contents[i]["Key"]);
-          var element = contents[i]["Key"];
-          element =
-            "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
-          console.log(element);
-          newBucketContent.push(element);
-        }
-      } catch (error) {
-        console.error("Fehler beim Laden der Ordner:", error);
-      }
-    }
-
-    //compare currentBucketContent and newBucketContent
-    async function compareFolders() {
-      try {
-        console.log("compareFolders");
-        var difference = newBucketContent.filter(
-          (x) => !currentBucketContent.includes(x)
-        );
-        if (difference) {
-          console.log("da isch ja was schönes");
-          console.log(difference);
-        } else {
-          console.log("Da war nix, wie schaaad");
-        }
-      } catch (error) {
-        console.log("There was an error with compareFolders: ", error);
-      }
-    }
-
-    //if new one -> get folder name and show images
-    //else -> no fishies detected
+    console.log("detect button pushed...");
+    loadCurrentFolders()
+      .then(lamdaDetectFunction)
+      .then(loadNewFolders)
+      .then(compareFolders)
+      .catch(console.error);
   }
 
   //Access s3 bucekt with latest fish detection objects
