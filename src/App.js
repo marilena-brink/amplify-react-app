@@ -254,7 +254,7 @@ export default function VideoPlayer3() {
   const s3 = new AWS.S3();
   // Erstelle die Parameter für die listObjectsV2-Methode
   const params = {
-    Bucket: "my-bucket", // Ersetze dies mit dem Namen deines Buckets
+    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
     Prefix:
       "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
   };
