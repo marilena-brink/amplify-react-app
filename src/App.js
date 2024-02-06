@@ -322,7 +322,7 @@ export default function VideoPlayer3() {
         </button>
 
         <label>
-          Passcode: <input id="passcode" />
+          Passcode: <input id="passcode" placeholder="Enter passcode" />
         </label>
       </div>
 
