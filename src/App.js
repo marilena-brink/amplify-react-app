@@ -243,7 +243,7 @@ export default function VideoPlayer3() {
       const s3Objects = await s3.listObjectsV2(params).promise();
       console.log(s3Objects);
       //s3Objects.Contents[1]["Key"]
-      for (entry in s3Objects.Content) {
+      for (var entry in s3Objects.Contents) {
         console.log(entry["Key"]);
       }
     } catch (error) {
