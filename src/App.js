@@ -280,8 +280,14 @@ export default function VideoPlayer3() {
     }
 
     //compare currentBucketContent and newBucketContent
-    for (elem in newBucketContent) {
-      console.log(newBucketContent[elem]);
+    let difference = newBucketContent.filter(
+      (x) => !currentBucketContent.includes(x)
+    );
+    if (difference) {
+      console.log("da isch ja was schönes");
+      console.log(difference);
+    } else {
+      console.log("Da war nix, wie schaaad");
     }
 
     //if new one -> get folder name and show images
