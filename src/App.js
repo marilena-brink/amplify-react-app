@@ -253,8 +253,7 @@ export default function VideoPlayer3() {
         var element = contents[i]["Key"];
         element =
           //"https://s3.amazonaws.com/rekognitionoutputbucket2/" + element;
-          "https://s3.amazonaws.com/rekognitionoutputbucket2/HHDDR4987J1CE18Ma8IHMzFLjqz7XdhQxugvHY/OByQQRPFSu5wqrdix/lkg1zpuTTrTxwUgA/tUPYWd0USGUSwJ+ko=/" +
-          element;
+          "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
         console.log(element);
         images.push(element);
       }
