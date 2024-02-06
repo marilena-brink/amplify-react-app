@@ -200,7 +200,11 @@ export default function VideoPlayer3() {
 
   //Function to manage fish detection by buttonClick
   function detect() {
-    //Calling lambda function
+    //TODO: await
+    //Get all current directorys from S3 bucket and save into list
+
+    //TODO: await
+    //Calling lambda function to detect
     fetch(
       "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
     )
@@ -211,29 +215,35 @@ export default function VideoPlayer3() {
       .catch((error) => {
         console.error("Error calling Lambda Function:", error);
       });
-  }
 
-  /*
-  // Subscribe to SNS to get messages from successful fish detection
-  var sns = new AWS.SNS();
-  sns.subscribe(
-    {
-      Protocol: "https",
-      TopicArn: "arn:aws:sns:eu-west-1:559768431112:OnlyFishNotification",
-      Endpoint: "https://main.d21gm2x0mb4rew.amplifyapp.com/",
-    },
-    function (err, data) {
-      if (err) {
-        console.log(err); // an error occurred
-      } else {
-        console.log(data); // successful response - the body should be in the data
-      }
-    }
-  );
-  */
+    //TODO: await
+    //AWS is making a new directory if it detected a fish/pet
+    //Get all current directorys from S3 bucket and compare with previous list
+    //if new one -> get folder name and show images
+    //else -> no fishies detected
+  }
 
   //Access s3 bucekt with latest fish detection objects
   const s3 = new AWS.S3();
+
+  //alle folders listen
+  const params_folders = {
+    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
+    Prefix:
+      "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
+  };
+
+  async function loadfolders() {
+    try {
+      const directories = await s3.listObjectsV2(params_folders).promise();
+      console.log(directories);
+    } catch (error) {
+      console.error("Fehler beim Laden der Ordner:", error);
+    }
+  }
+  loadfolders();
+
+  //alle bilder im directory anschauen
   const params = {
     Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
     Prefix:
@@ -245,14 +255,12 @@ export default function VideoPlayer3() {
     try {
       const s3Objects = await s3.listObjectsV2(params).promise();
       console.log(s3Objects);
-      //s3Objects.Contents[1]["Key"]
       var contents = s3Objects.Contents;
       var images = [];
       for (var i in contents) {
         console.log(contents[i]["Key"]);
         var element = contents[i]["Key"];
         element =
-          //"https://s3.amazonaws.com/rekognitionoutputbucket2/" + element;
           "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
         console.log(element);
         images.push(element);
