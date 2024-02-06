@@ -280,14 +280,20 @@ export default function VideoPlayer3() {
     }
 
     //compare currentBucketContent and newBucketContent
-    let difference = newBucketContent.filter(
-      (x) => !currentBucketContent.includes(x)
-    );
-    if (difference) {
-      console.log("da isch ja was schönes");
-      console.log(difference);
-    } else {
-      console.log("Da war nix, wie schaaad");
+    async function compareFolders() {
+      try {
+        var difference = newBucketContent.filter(
+          (x) => !currentBucketContent.includes(x)
+        );
+        if (difference) {
+          console.log("da isch ja was schönes");
+          console.log(difference);
+        } else {
+          console.log("Da war nix, wie schaaad");
+        }
+      } catch (error) {
+        console.log("There was an error with compareFolders: ", error);
+      }
     }
 
     //if new one -> get folder name and show images
