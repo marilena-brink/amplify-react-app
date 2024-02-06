@@ -232,10 +232,24 @@ export default function VideoPlayer3() {
     Prefix: "data/RekognitionStreamProcessor/",
   };
 
+  var currentBucketContent = [];
+
   async function loadfolders() {
     try {
       const directories = await s3.listObjectsV2(params_folders).promise();
       console.log(directories);
+      var contents = directories.Contents;
+
+      for (var i in contents) {
+        console.log(contents[i]["Key"]);
+        var element = contents[i]["Key"];
+        element =
+          "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
+        console.log(element);
+        currentBucketContent.push(element);
+      }
+      console.log("all the contents");
+      console.log(currentBucketContent);
     } catch (error) {
       console.error("Fehler beim Laden der Ordner:", error);
     }
@@ -253,15 +267,12 @@ export default function VideoPlayer3() {
   async function loadImage() {
     try {
       const s3Objects = await s3.listObjectsV2(params).promise();
-      console.log(s3Objects);
       var contents = s3Objects.Contents;
       var images = [];
       for (var i in contents) {
-        console.log(contents[i]["Key"]);
         var element = contents[i]["Key"];
         element =
           "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
-        console.log(element);
         images.push(element);
       }
       imageRef_1.current.src = images[0];
