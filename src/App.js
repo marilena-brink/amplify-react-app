@@ -251,12 +251,13 @@ export default function VideoPlayer3() {
       for (var i in contents) {
         console.log(contents[i]["Key"]);
         var element = contents[i]["Key"];
+        element =
+          element + "https://s3.amazonaws.com/rekognitionoutputbucket2/";
+        console.log(element);
         images.push(element);
       }
-      imageRef_1.current.src =
-        "https://s3.amazonaws.com/rekognitionoutputbucket2/" + images[0];
-      imageRef_2.current.src =
-        "https://s3.amazonaws.com/rekognitionoutputbucket2/" + images[1];
+      imageRef_1.current.src = images[0];
+      imageRef_2.current.src = images[1];
     } catch (error) {
       console.error("Fehler beim Laden des Bildes:", error);
     }
@@ -322,8 +323,8 @@ export default function VideoPlayer3() {
       </div>
 
       <div className="imagesDetected">
-        <img ref={imageRef_1} src="" alt="Bild" />
-        <img ref={imageRef_2} src="" alt="Bild" />
+        <img ref={imageRef_1} src="" />
+        <img ref={imageRef_2} src="" />
       </div>
     </div>
   );
