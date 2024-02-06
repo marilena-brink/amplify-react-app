@@ -239,6 +239,8 @@ export default function VideoPlayer3() {
     Prefix:
       "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
   };
+  const imageRef_1 = useRef();
+  const imageRef_2 = useRef();
   async function loadImage() {
     try {
       const s3Objects = await s3.listObjectsV2(params).promise();
@@ -251,10 +253,8 @@ export default function VideoPlayer3() {
         var element = contents[i]["Key"];
         images.push(element);
       }
-      const imageRef_1 = useRef();
       imageRef_1.current.src =
         "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[0];
-      const imageRef_2 = useRef();
       imageRef_2.current.src =
         "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[1];
     } catch (error) {
