@@ -267,6 +267,10 @@ export default function VideoPlayer3() {
   async function compareFolders() {
     try {
       console.log("compareFolders");
+      console.log("current");
+      console.log(currentBucketContent);
+      console.log("new");
+      console.log(newBucketContent);
       var difference = newBucketContent.filter(
         (x) => !currentBucketContent.includes(x)
       );
