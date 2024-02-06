@@ -200,7 +200,6 @@ export default function VideoPlayer3() {
 
   //Function to manage fish detection by buttonClick
   function detect() {
-    //TODO: detect fishies
     fetch(
       "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
     )
@@ -232,61 +231,26 @@ export default function VideoPlayer3() {
   );
   */
 
-  //S3 bucket
-  /*
-  useEffect(() => {
-    async function loadImage() {
-      try {
-        const s3Objects = await list({
-          prefix:
-            "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
-        });
-        console.log(s3Objects);
-      } catch (error) {
-        console.error("Fehler beim Laden des Bildes:", error);
-      }
-    }
-
-    loadImage();
-  }, []); */
-
-  // Erstelle eine neue Instanz von S3
+  //Access s3 bucekt with latest fish detection objects
   const s3 = new AWS.S3();
-  // Erstelle die Parameter für die listObjectsV2-Methode
   const params = {
     Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
     Prefix:
       "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
   };
-  // Erstelle eine asynchrone Funktion, um die Objekte zu laden
   async function loadImage() {
     try {
-      // Rufe die listObjectsV2-Methode auf und warte auf die Antwort
       const s3Objects = await s3.listObjectsV2(params).promise();
       console.log(s3Objects);
+      //s3Objects.Contents[1]["Key"]
+      for (entry in s3Objects.Content) {
+        console.log(entry["Key"]);
+      }
     } catch (error) {
       console.error("Fehler beim Laden des Bildes:", error);
     }
   }
-  // Rufe die Funktion auf
   loadImage();
-
-  //S3 Bucket part 2
-  /*
-  async function listBucket() {
-    try {
-      const result = await list({
-        prefix:
-          "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
-      });
-      console.log("Hat geklappt :D");
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  listBucket();
-  */
 
   return (
     <div className="dash-video-player ">
