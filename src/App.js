@@ -211,6 +211,7 @@ export default function VideoPlayer3() {
     var currentBucketContent = [];
     async function loadCurrentFolders() {
       try {
+        console.log("loading current Folders...");
         const directories = await s3
           .listObjectsV2(params_old_folders)
           .promise();
@@ -234,6 +235,7 @@ export default function VideoPlayer3() {
     //Calling lambda function to detect
     async function lamdaDetectFunction() {
       try {
+        console.log("lamdaDetectFunction");
         fetch(
           "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
         )
@@ -262,6 +264,7 @@ export default function VideoPlayer3() {
     var newBucketContent = [];
     async function loadNewFolders() {
       try {
+        console.log("loadNewFolders");
         const directories = await s3.listObjectsV2(params_folders).promise();
         console.log(directories);
         var contents = directories.Contents;
@@ -282,6 +285,7 @@ export default function VideoPlayer3() {
     //compare currentBucketContent and newBucketContent
     async function compareFolders() {
       try {
+        console.log("compareFolders");
         var difference = newBucketContent.filter(
           (x) => !currentBucketContent.includes(x)
         );
