@@ -252,7 +252,7 @@ export default function VideoPlayer3() {
         console.log(contents[i]["Key"]);
         var element = contents[i]["Key"];
         element =
-          element + "https://s3.amazonaws.com/rekognitionoutputbucket2/";
+          "https://s3.amazonaws.com/rekognitionoutputbucket2/" + element;
         console.log(element);
         images.push(element);
       }
