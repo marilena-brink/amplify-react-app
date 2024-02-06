@@ -200,6 +200,7 @@ export default function VideoPlayer3() {
 
   //Function to manage fish detection by buttonClick
   function detect() {
+    //Calling lambda function
     fetch(
       "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
     )
@@ -243,10 +244,19 @@ export default function VideoPlayer3() {
       const s3Objects = await s3.listObjectsV2(params).promise();
       console.log(s3Objects);
       //s3Objects.Contents[1]["Key"]
-      var images = s3Objects.Contents;
-      for (var i in images) {
-        console.log(images[i]["Key"]);
+      var contents = s3Objects.Contents;
+      var images = [];
+      for (var i in contents) {
+        console.log(contents[i]["Key"]);
+        var element = contents[i]["Key"];
+        images.push(element);
       }
+      const imageRef_1 = useRef();
+      imageRef_1.current.src =
+        "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[0];
+      const imageRef_2 = useRef();
+      imageRef_2.current.src =
+        "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[1];
     } catch (error) {
       console.error("Fehler beim Laden des Bildes:", error);
     }
@@ -286,7 +296,7 @@ export default function VideoPlayer3() {
           Toggle Lights
         </button>
 
-        <label style={{ color: aliceblue }}>
+        <label style={{ color: "white" }}>
           Passcode:{" "}
           <input
             className="passcode"
@@ -309,6 +319,11 @@ export default function VideoPlayer3() {
           Hey, the stream is currently offline, the fishies are probably
           sleeping &#128564;.
         </p>
+      </div>
+
+      <div className="imagesDetected">
+        <img ref={imageRef_1} src="" alt="Bild" />
+        <img ref={imageRef_2} src="" alt="Bild" />
       </div>
     </div>
   );
