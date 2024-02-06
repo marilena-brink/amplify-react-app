@@ -229,8 +229,7 @@ export default function VideoPlayer3() {
   //alle folders listen
   const params_folders = {
     Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
-    Prefix:
-      "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
+    Prefix: "data/RekognitionStreamProcessor/",
   };
 
   async function loadfolders() {
