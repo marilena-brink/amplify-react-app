@@ -285,10 +285,15 @@ export default function VideoPlayer3() {
     }
   }
 
+  function Sleep(milliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  }
+
   //Function to manage fish detection by buttonClick
   function detect() {
     console.log("detect button pushed...");
     loadCurrentFolders()
+      .then(Sleep(30000))
       .then(lamdaDetectFunction)
       .then(loadNewFolders)
       .then(compareFolders)
