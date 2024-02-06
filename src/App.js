@@ -254,9 +254,9 @@ export default function VideoPlayer3() {
         images.push(element);
       }
       imageRef_1.current.src =
-        "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[0];
+        "https://s3.amazonaws.com/rekognitionoutputbucket2/" + images[0];
       imageRef_2.current.src =
-        "https://s3.amazonaws.com/rekognitionoutputbucket2" + images[1];
+        "https://s3.amazonaws.com/rekognitionoutputbucket2/" + images[1];
     } catch (error) {
       console.error("Fehler beim Laden des Bildes:", error);
     }
