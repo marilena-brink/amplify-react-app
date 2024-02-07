@@ -21,31 +21,6 @@ export default function VideoPlayer3() {
     region: "eu-west-1",
   });
 
-  // Hilfe scheiß s3
-  /*
-  var s3 = new AWS.S3();
-
-  // Call S3 to list the buckets
-  s3.listBuckets(function (err, data) {
-    if (err) {
-      console.log("Error", err);
-    } else {
-      console.log("Success", data.Buckets);
-    }
-  });
-  */
-  /**
-   * try {
-    const result = await uploadData({
-      key: filename,
-      data: file,
-    }).result;
-    console.log("Succeeded: ", result);
-  } catch (error) {
-    console.log("Error : ", error);
-  }
-   */
-
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
@@ -290,6 +265,9 @@ export default function VideoPlayer3() {
     await new Promise((resolve) => setTimeout(resolve, 31000));
     console.log("Timeout finished ...");
   }
+
+  const imageRef_1 = useRef();
+  const imageRef_2 = useRef();
 
   //Function to manage fish detection by buttonClick
   function detect() {
