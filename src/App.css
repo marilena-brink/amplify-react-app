@@ -99,7 +99,7 @@ body {
 }
 
 .videoContainer {
-  width: 50%;
+  width: 45%;
   display: flex;
   justify-content: center;
   border-radius: 5px;
