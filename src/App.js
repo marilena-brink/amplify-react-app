@@ -11,7 +11,8 @@ export default function VideoPlayer3() {
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
   // Create AWS instance
-  // We used Amplify environment variables to store the IAM access credentials
+  // We used React environment variables to store the IAM access credentials
+  // The actual credentials are deposited in AWS Amplify environment variables
   AWS.config.update({
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
