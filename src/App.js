@@ -212,10 +212,6 @@ export default function VideoPlayer3() {
 
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-    let button = document.getElementById("detectBtn");
-    button.innerHTML = "Detecting ...";
-    button.style.pointerEvents = "none"; //normally "auto"
-    button.style.backgroundColor = "gray"; //normally "#8e1b38"
 
     console.log("Starting Timeout ...");
     await new Promise((resolve) => setTimeout(resolve, 30000));
@@ -225,6 +221,12 @@ export default function VideoPlayer3() {
   //Calling lambda function to detect
   async function lamdaDetectFunction() {
     try {
+      // Change button appearance
+      let button = document.getElementById("detectBtn");
+      button.innerHTML = "Detecting ...";
+      button.style.pointerEvents = "none"; //normally "auto"
+      button.style.backgroundColor = "gray"; //normally "#8e1b38"
+
       const response = await fetch(
         "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
       );
@@ -308,7 +310,7 @@ export default function VideoPlayer3() {
   return (
     <div className="dash-video-player ">
       <div>
-        <img src={logo} alt="Only Fish Logo" width="100" height="100"></img>
+        <img id="title_img" src={logo} alt="Only Fish Logo" width="100" height="100"></img>
       </div>
 
       <div hidden>
