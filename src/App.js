@@ -176,7 +176,7 @@ export default function VideoPlayer3() {
 
   //Get all current directorys from S3 bucket and save into list
   var params_old_folders = {
-    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
+    Bucket: "rekognitionoutputbucket2",
     Prefix: "data/RekognitionStreamProcessor/",
   };
   var currentBucketContent = [];
