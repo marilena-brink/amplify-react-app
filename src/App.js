@@ -184,8 +184,20 @@ export default function VideoPlayer3() {
   var currentBucketContent = [];
   async function loadCurrentFolders() {
     try {
-      var div = document.getElementById("noFishDetected");
-      div.style.display = "none";
+      //Hide some stuff
+      var div_nofish = document.getElementById("noFishDetected");
+      div_nofish.style.display = "none";
+      var div_fish = document.getElementById("noFishDetected");
+      div_fish.style.display = "none";
+      let images = document.getElementsByClassName("detectedImage");
+      let length = images.length;
+      if (length != 0) {
+        for (let i = length - 1; i >= 0; i--) {
+          let image = images[i];
+          image.parentNode.removeChild(image);
+        }
+      }
+
       const directories = await s3.listObjectsV2(params_old_folders).promise();
       var contents = directories.Contents;
 
@@ -275,7 +287,7 @@ export default function VideoPlayer3() {
           var image = new Image();
           image.src = imgSrc;
           image.class = "detectedImage";
-          var div = document.getElementsByClassName("imagesDetected");
+          var div = document.getElementById("imagesDetected");
           div.appendChild(image);
         }
       }
@@ -395,7 +407,7 @@ export default function VideoPlayer3() {
         </p>
       </div>
 
-      <div className="imagesDetected"></div>
+      <div id="imagesDetected" className="imagesDetected"></div>
     </div>
   );
 }
