@@ -269,7 +269,7 @@ export default function VideoPlayer3() {
     }
 
     console.log("Starting Timeout ...");
-    await new Promise((resolve) => setTimeout(resolve, 31000));
+    await new Promise((resolve) => setTimeout(resolve, 120000));
     console.log("Timeout finished ...");
 
     if (button.disabled) {
