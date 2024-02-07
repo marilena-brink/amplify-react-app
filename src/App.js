@@ -275,7 +275,7 @@ export default function VideoPlayer3() {
       } else {
 
         var div = document.getElementById("fishDetected");
-        div.style.display = "flex";
+        div.style.display = "block";
 
         for (var elem in difference) {
           var imgSrc = difference[elem];
