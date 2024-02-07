@@ -261,22 +261,14 @@ export default function VideoPlayer3() {
 
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-    let button = document.getElementById("detectBtn");
-    if (button.disabled) {
-      button.disabled = false;
-    } else {
-      button.disabled = true;
-    }
+    const [isDisabled, setDisabled] = useState(false);
+    setDisabled(!isDisabled);
 
     console.log("Starting Timeout ...");
     await new Promise((resolve) => setTimeout(resolve, 120000));
     console.log("Timeout finished ...");
 
-    if (button.disabled) {
-      button.disabled = false;
-    } else {
-      button.disabled = true;
-    }
+    setDisabled(!isDisabled);
   }
 
   const imageRef_1 = useRef();
@@ -345,7 +337,12 @@ export default function VideoPlayer3() {
       </div>
 
       <div>
-        <button id="detectBtn" className="button detect" onClick={detect}>
+        <button
+          disabled={isDisabled}
+          id="detectBtn"
+          className="button detect"
+          onClick={detect}
+        >
           Detect fishies
         </button>
         <button className="button reload" onClick={reloadPage}>
