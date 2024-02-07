@@ -35,7 +35,6 @@ export default function VideoPlayer3() {
   // Set stream name, set initial states of src url null
   const streamName = "OnlyFish";
   const [src, setSrc] = useState(null);
-  const [isDisabled, setDisabled] = useState(false);
 
   // Async function to fetch the endpoint of the kinesis stream (Dash URL)
   async function getDashUrl() {
@@ -214,13 +213,13 @@ export default function VideoPlayer3() {
 
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-    setDisabled(true);
+    let button = document.getElementById("detectBtn");
+    button.style.pointerEvents = "none"; //normally "auto"
+    button.style.backgroundColor = "gray"; //normally "#8e1b38"
 
     console.log("Starting Timeout ...");
-    await new Promise((resolve) => setTimeout(resolve, 60000));
+    await new Promise((resolve) => setTimeout(resolve, 30000));
     console.log("Timeout finished ...");
-
-    setDisabled(false);
   }
 
   //Calling lambda function to detect
@@ -267,15 +266,10 @@ export default function VideoPlayer3() {
   //else -> no fishies detected
   async function compareFolders() {
     try {
-      console.log("current folders:");
-      console.log(currentBucketContent);
-      console.log("new folders:");
-      console.log(newBucketContent);
       var difference = newBucketContent.filter(
         (x) => !currentBucketContent.includes(x)
       );
       if (difference.length == 0) {
-        console.log("Da war nix, wie schaaad");
         var div = document.getElementById("noFishDetected");
         div.style.display = "block";
       } else {
@@ -292,6 +286,9 @@ export default function VideoPlayer3() {
           div.appendChild(image);
         }
       }
+      let button = document.getElementById("detectBtn");
+      button.style.pointerEvents = "auto"; //normally "auto"
+      button.style.backgroundColor = "#8e1b38"; //normally "#8e1b38"
     } catch (error) {
       console.log("There was an error with compareFolders: ", error);
     }
@@ -306,36 +303,6 @@ export default function VideoPlayer3() {
       .then(compareFolders)
       .catch(console.error);
   }
-
-  /*
-  //Access s3 bucekt with latest fish detection objects
-  //alle bilder im directory anschauen
-  const params = {
-    Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
-    Prefix:
-      "data/RekognitionStreamProcessor/0297f5a6-4173-43ba-95e8-e01b5d88d12f/notifications/",
-  };
-  const imageRef_1 = useRef();
-  const imageRef_2 = useRef();
-  async function loadImage() {
-    try {
-      const s3Objects = await s3.listObjectsV2(params).promise();
-      var contents = s3Objects.Contents;
-      var images = [];
-      for (var i in contents) {
-        var element = contents[i]["Key"];
-        element =
-          "https://rekognitionoutputbucket2.s3.amazonaws.com/" + element;
-        images.push(element);
-      }
-      imageRef_1.current.src = images[0];
-      imageRef_2.current.src = images[1];
-    } catch (error) {
-      console.error("Fehler beim Laden des Bildes:", error);
-    }
-  }
-  loadImage();
-  */
 
   return (
     <div className="dash-video-player ">
@@ -359,18 +326,13 @@ export default function VideoPlayer3() {
       </div>
 
       <div>
-        <button
-          disabled={isDisabled}
-          id="detectBtn"
-          className="button detect"
-          onClick={detect}
-        >
+        <button id="detectBtn" className="button detect" onClick={detect}>
           Detect fishies
         </button>
         <button className="button reload" onClick={reloadPage}>
           Reload Stream
         </button>
-
+        <br />
         <button className="button light" onClick={toggleLights}>
           Toggle Lights
         </button>
