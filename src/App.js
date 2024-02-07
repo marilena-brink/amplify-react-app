@@ -362,11 +362,11 @@ export default function VideoPlayer3() {
         </p>
         <p id="noFishDetected" class="infoText notDetected">
           <SlInfo className="infoLogo" />
-          There was no fish detected, maybe next time &#57369;
+          There was no fish detected, maybe next time &#128031;
         </p>
         <p id="fishDetected" class="infoText detected">
           <SlInfo className="infoLogo" />
-          Nice we detected some fishies! &#57369;
+          Nice we detected some fishies! &#128031;
         </p>
       </div>
 
