@@ -266,10 +266,9 @@ export default function VideoPlayer3() {
   //else -> no fishies detected
   async function compareFolders() {
     try {
-      console.log("compareFolders");
-      console.log("current");
+      console.log("current folders:");
       console.log(currentBucketContent);
-      console.log("new");
+      console.log("new folders:");
       console.log(newBucketContent);
       var difference = newBucketContent.filter(
         (x) => !currentBucketContent.includes(x)
@@ -285,23 +284,26 @@ export default function VideoPlayer3() {
     }
   }
 
-  function Sleep(milliseconds) {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  //Function to set timeout, because of fish detection with duration of 30 seconds
+  async function timeout() {
+    console.log("Starting Timeout ...");
+    await new Promise((resolve) => setTimeout(resolve, 31000));
+    console.log("Timeout finished ...");
   }
 
   //Function to manage fish detection by buttonClick
   function detect() {
     console.log("detect button pushed...");
     loadCurrentFolders()
-      .then(Sleep(30000))
+      .then(timeout)
       .then(lamdaDetectFunction)
       .then(loadNewFolders)
       .then(compareFolders)
       .catch(console.error);
   }
 
+  /*
   //Access s3 bucekt with latest fish detection objects
-
   //alle bilder im directory anschauen
   const params = {
     Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
@@ -328,6 +330,7 @@ export default function VideoPlayer3() {
     }
   }
   loadImage();
+  */
 
   return (
     <div className="dash-video-player ">
