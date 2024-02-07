@@ -108,8 +108,12 @@ export default function VideoPlayer3() {
           console.log("Anfrage fehlgeschlagen: " + error);
           console.log("Error status: ", error.response.status);
           if (error.response.status == 403) {
-            var div = document.getElementById("reload");
-            div.style.display = "block";
+            var fishiDiv = document.getElementById("fishDetected");
+            var nofishiDiv = document.getElementById("noFishDetected");
+            fishiDiv.style.display = "none";
+            nofishiDiv.style.display = "none";
+            var reloadDiv = document.getElementById("reload");
+            reloadDiv.style.display = "block";
           }
         });
     }, 5000); // 5 Seconds interval
@@ -186,7 +190,7 @@ export default function VideoPlayer3() {
       //Hide some stuff
       var div_nofish = document.getElementById("noFishDetected");
       div_nofish.style.display = "none";
-      var div_fish = document.getElementById("noFishDetected");
+      var div_fish = document.getElementById("fishDetected");
       div_fish.style.display = "none";
       let images = document.getElementsByClassName("detectedImage");
       let length = images.length;
@@ -214,6 +218,7 @@ export default function VideoPlayer3() {
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
     let button = document.getElementById("detectBtn");
+    button.innerHTML = "Detecting ...";
     button.style.pointerEvents = "none"; //normally "auto"
     button.style.backgroundColor = "gray"; //normally "#8e1b38"
 
@@ -287,6 +292,7 @@ export default function VideoPlayer3() {
         }
       }
       let button = document.getElementById("detectBtn");
+      button.innerHTML = "Detect fishies";
       button.style.pointerEvents = "auto"; //normally "auto"
       button.style.backgroundColor = "#8e1b38"; //normally "#8e1b38"
     } catch (error) {
