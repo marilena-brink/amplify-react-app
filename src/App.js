@@ -280,10 +280,10 @@ export default function VideoPlayer3() {
         div.style.display = "block";
       } else {
         console.log("da isch ja was schönes");
+        var div = document.getElementById("fishDetected");
+        div.style.display = "block";
         console.log(difference);
         for (var elem in difference) {
-          var div = document.getElementById("fishDetected");
-          div.style.display = "block";
           var imgSrc = difference[elem];
           var image = new Image();
           image.src = imgSrc;
