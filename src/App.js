@@ -1,3 +1,4 @@
+// Imports
 import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import logo from "./onlyFishLogoTransparent.png";
@@ -5,13 +6,14 @@ import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
-
 export default function VideoPlayer3() {
   // Import AWS SDK
   var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
+  // Create AWS instance
+  // We used Amplify environment variables to store the IAM access credentials
   AWS.config.update({
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
     region: "eu-west-1",
   });
@@ -19,7 +21,7 @@ export default function VideoPlayer3() {
   // Create Kinesis Video Client instance with IAM user authentication
   const kinesisVideo = new AWS.KinesisVideo({
     apiVersion: "latest",
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY, // We used Amplify environment variables to store the IAM access credentials
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
     region: "eu-west-1",
   });
@@ -27,8 +29,9 @@ export default function VideoPlayer3() {
   // Define Kinesis Archived Media Client variable
   let kinesisVideoArchivedMedia;
 
-  // Set stream name, set initial states of src url null
+  // Set stream name
   const streamName = "OnlyFish";
+  // Set initial states of src url null
   const [src, setSrc] = useState(null);
 
   // Async function to fetch the endpoint of the kinesis stream (Dash URL)
@@ -39,7 +42,7 @@ export default function VideoPlayer3() {
           APIName: "GET_DASH_STREAMING_SESSION_URL",
           StreamName: streamName,
         })
-        .promise(); // Convert Callback-based function to a promise
+        .promise(); // Convert Callback-based function to a promise, so that it has to wait for the url
       const dataEndpoint = dataEndpointResponse.DataEndpoint;
 
       // Set endpoint for Kinesis Video Archived Media Client
@@ -88,7 +91,7 @@ export default function VideoPlayer3() {
       .catch((error) => {
         console.error(error);
       });
-  }, []); // Leeres Array bedeutet, dass diese Hook nur einmal ausgeführt wird
+  }, []);
 
   // This function checks every 5 seconds, if the dash url is still valid (Dash URL last 5 mins until the authentication is expired)
   function checkFor403(url) {
@@ -148,7 +151,7 @@ export default function VideoPlayer3() {
     };
   }, [src]); // Defining src here tells the hook to only run if the src variable changes (Only reload player if url changes)
 
-  //Function to reload the page if necessary
+  //Function to reload the page by button click
   function reloadPage() {
     window.location.reload();
   }
@@ -172,9 +175,10 @@ export default function VideoPlayer3() {
       .then(() => console.log("Toggle lights finished"));
   }
 
+  // Set a s3 bucket variable to connect to S3 Bucket
   const s3 = new AWS.S3();
 
-  //Get all current directorys from S3 bucket and save into list
+  // Set params for connecting to s3 bucket and getting all current directories
   var params_old_folders = {
     Bucket: "rekognitionoutputbucket2",
     Prefix: "data/RekognitionStreamProcessor/",
@@ -182,7 +186,7 @@ export default function VideoPlayer3() {
   var currentBucketContent = [];
   async function loadCurrentFolders() {
     try {
-      //Hide some stuff
+      //Hide unnecessary stuff on the website
       var div_nofish = document.getElementById("noFishDetected");
       div_nofish.style.display = "none";
       var div_fish = document.getElementById("fishDetected");
@@ -196,9 +200,11 @@ export default function VideoPlayer3() {
         }
       }
 
+      // Send list request to s3 bucket
       const directories = await s3.listObjectsV2(params_old_folders).promise();
-      var contents = directories.Contents;
+      var contents = directories.Contents; // results are all current images stored in the bucket
 
+      // Look at response of s3 bucket and make the elements available with url-prefix
       for (var i in contents) {
         var element = contents[i]["Key"];
         element =
@@ -210,26 +216,25 @@ export default function VideoPlayer3() {
     }
   }
 
-  //Function to set timeout, because of fish detection with duration of 30 seconds
+  // Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-
-    console.log("Starting Timeout ...");
     await new Promise((resolve) => setTimeout(resolve, 30000));
-    console.log("Timeout finished ...");
   }
 
-  //Calling lambda function to detect
+  // Calling lambda function to detect
   async function lamdaDetectFunction() {
     try {
-      // Change button appearance
+      // Change button appearance to prevent user of pressing it multiple times
       let button = document.getElementById("detectBtn");
       button.innerHTML = "Detecting ...";
-      button.style.pointerEvents = "none"; //normally "auto"
-      button.style.backgroundColor = "gray"; //normally "#8e1b38"
+      button.style.pointerEvents = "none";
+      button.style.backgroundColor = "gray";
 
+      // Calling the lambda function and activating Rekognition
       const response = await fetch(
         "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
       );
+      // Save response from lambda function
       const data = await response.json();
       await timeout();
     } catch (error) {
@@ -240,8 +245,8 @@ export default function VideoPlayer3() {
     }
   }
 
-  //AWS is making a new directory if it detected a fish/pet
-  //Get all current directorys from S3 bucket and compare with previous list
+  // AWS is making a new directory if it detected a fish/pet
+  // Get all current directorys from S3 bucket and compare with previous list
   var params_folders = {
     Bucket: "rekognitionoutputbucket2", // Ersetze dies mit dem Namen deines Buckets
     Prefix: "data/RekognitionStreamProcessor/",
@@ -264,21 +269,23 @@ export default function VideoPlayer3() {
   }
 
   //compare currentBucketContent and newBucketContent
-  //if new one -> get folder name and show images
-  //else -> no fishies detected
+  //if new directories -> show images as "Fish detected"
+  //else -> show that there were no fishies detected
   async function compareFolders() {
     try {
       var difference = newBucketContent.filter(
         (x) => !currentBucketContent.includes(x)
       );
       if (difference.length == 0) {
+        // if there were no fishes detected
         var div = document.getElementById("noFishDetected");
-        div.style.display = "block";
+        div.style.display = "block"; // display the user an info message
       } else {
-
+        // if there were fishes detected
         var div = document.getElementById("fishDetected");
-        div.style.display = "block";
+        div.style.display = "block"; // display the user an info message
 
+        // Extract the image and show as image tag
         for (var elem in difference) {
           var imgSrc = difference[elem];
           var image = new Image();
@@ -288,6 +295,7 @@ export default function VideoPlayer3() {
           div.appendChild(image);
         }
       }
+      // activate detect button again
       let button = document.getElementById("detectBtn");
       button.innerHTML = "Detect fishies";
       button.style.pointerEvents = "auto"; //normally "auto"
@@ -310,7 +318,13 @@ export default function VideoPlayer3() {
   return (
     <div className="dash-video-player ">
       <div>
-        <img id="title_img" src={logo} alt="Only Fish Logo" width="100" height="100"></img>
+        <img
+          id="title_img"
+          src={logo}
+          alt="Only Fish Logo"
+          width="100"
+          height="100"
+        ></img>
       </div>
 
       <div hidden>
@@ -329,18 +343,16 @@ export default function VideoPlayer3() {
       </div>
 
       <div id="buttons_div">
-
-
         <button id="detectBtn" className="button detect" onClick={detect}>
           Detect fishies
         </button>
         <button id="reloadBtn" className="button reload" onClick={reloadPage}>
           Reload Stream
         </button>
-        
-        <div id="lights_div">       
+
+        <div id="lights_div">
           <button className="button light" onClick={toggleLights}>
-          Toggle Lights
+            Toggle Lights
           </button>
           <br />
           <input
@@ -350,7 +362,6 @@ export default function VideoPlayer3() {
             type="password"
           />
         </div>
-        
       </div>
 
       <div className="textDiv">
