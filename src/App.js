@@ -205,14 +205,11 @@ export default function VideoPlayer3() {
     setDisabled(true);
 
     console.log("Starting Timeout ...");
-    await new Promise((resolve) => setTimeout(resolve, 120000));
+    await new Promise((resolve) => setTimeout(resolve, 60000));
     console.log("Timeout finished ...");
 
     setDisabled(false);
   }
-
-  const imageRef_1 = useRef();
-  const imageRef_2 = useRef();
 
   //Calling lambda function to detect
   async function lamdaDetectFunction() {
@@ -221,6 +218,7 @@ export default function VideoPlayer3() {
         "https://l3kgveuvnod5v6yxtf7ztn3rca0wfvhi.lambda-url.eu-central-1.on.aws"
       );
       const data = await response.json();
+      await timeout();
       console.log("Lambda Function Response:", data);
     } catch (error) {
       console.log(
@@ -277,7 +275,7 @@ export default function VideoPlayer3() {
           var image = new Image();
           image.src = imgSrc;
           image.class = "detectedImage";
-          var div = document.getElementById("imagesDetected");
+          var div = document.getElementsByClassName("imagesDetected");
           div.appendChild(image);
         }
       }
@@ -290,7 +288,6 @@ export default function VideoPlayer3() {
   function detect() {
     console.log("detect button pushed...");
     loadCurrentFolders()
-      .then(timeout)
       .then(lamdaDetectFunction)
       .then(loadNewFolders)
       .then(compareFolders)
