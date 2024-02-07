@@ -231,7 +231,6 @@ export default function VideoPlayer3() {
       );
       const data = await response.json();
       await timeout();
-      console.log("Lambda Function Response:", data);
     } catch (error) {
       console.log(
         "Error occured while loading the lamdaDetectFunction: ",
@@ -286,7 +285,7 @@ export default function VideoPlayer3() {
           var imgSrc = difference[elem];
           var image = new Image();
           image.src = imgSrc;
-          image.class = "detectedImage";
+          image.className = "detectedImage";
           var div = document.getElementById("imagesDetected");
           div.appendChild(image);
         }
