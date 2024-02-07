@@ -44,6 +44,14 @@ body {
   display: none;
 }
 
+.notDetected {
+  display: none;
+}
+
+.detected {
+  display: none;
+}
+
 .App {
   text-align: center;
 }

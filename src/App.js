@@ -184,6 +184,8 @@ export default function VideoPlayer3() {
   var currentBucketContent = [];
   async function loadCurrentFolders() {
     try {
+      var div = document.getElementById("noFishDetected");
+      div.style.display = "none";
       const directories = await s3.listObjectsV2(params_old_folders).promise();
       var contents = directories.Contents;
 
@@ -249,11 +251,13 @@ export default function VideoPlayer3() {
       var difference = newBucketContent.filter(
         (x) => !currentBucketContent.includes(x)
       );
-      if (difference) {
+      if (difference.length == 0) {
+        console.log("Da war nix, wie schaaad");
+        var div = document.getElementById("noFishDetected");
+        div.style.display = "block";
+      } else {
         console.log("da isch ja was schönes");
         console.log(difference);
-      } else {
-        console.log("Da war nix, wie schaaad");
       }
     } catch (error) {
       console.log("There was an error with compareFolders: ", error);
@@ -375,6 +379,14 @@ export default function VideoPlayer3() {
           <SlInfo className="infoLogo" />
           Hey, the stream is currently offline, the fishies are probably
           sleeping &#128564;.
+        </p>
+        <p id="noFishDetected" class="infoText notDetected">
+          <SlInfo className="infoLogo" />
+          There was no fish detected, maybe next time &#57369;
+        </p>
+        <p id="fishDetected" class="infoText detected">
+          <SlInfo className="infoLogo" />
+          Nice we detected some fishies! &#57369;
         </p>
       </div>
 
