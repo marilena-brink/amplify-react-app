@@ -200,6 +200,20 @@ export default function VideoPlayer3() {
     }
   }
 
+  //Function to set timeout, because of fish detection with duration of 30 seconds
+  async function timeout() {
+    setDisabled(true);
+
+    console.log("Starting Timeout ...");
+    await new Promise((resolve) => setTimeout(resolve, 120000));
+    console.log("Timeout finished ...");
+
+    setDisabled(false);
+  }
+
+  const imageRef_1 = useRef();
+  const imageRef_2 = useRef();
+
   //Calling lambda function to detect
   async function lamdaDetectFunction() {
     try {
@@ -258,25 +272,19 @@ export default function VideoPlayer3() {
       } else {
         console.log("da isch ja was schönes");
         console.log(difference);
+        for (elem in difference) {
+          var imgSrc = difference[elem];
+          var image = new Image();
+          image.src = imgSrc;
+          image.class = "detectedImage";
+          var div = document.getElementById("imagesDetected");
+          div.appendChild(image);
+        }
       }
     } catch (error) {
       console.log("There was an error with compareFolders: ", error);
     }
   }
-
-  //Function to set timeout, because of fish detection with duration of 30 seconds
-  async function timeout() {
-    setDisabled(true);
-
-    console.log("Starting Timeout ...");
-    await new Promise((resolve) => setTimeout(resolve, 120000));
-    console.log("Timeout finished ...");
-
-    setDisabled(false);
-  }
-
-  const imageRef_1 = useRef();
-  const imageRef_2 = useRef();
 
   //Function to manage fish detection by buttonClick
   function detect() {
@@ -390,10 +398,7 @@ export default function VideoPlayer3() {
         </p>
       </div>
 
-      <div className="imagesDetected">
-        <img ref={imageRef_1} src="" />
-        <img ref={imageRef_2} src="" />
-      </div>
+      <div className="imagesDetected"></div>
     </div>
   );
 }
