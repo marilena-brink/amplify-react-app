@@ -156,3 +156,9 @@ body {
   height: 35px;
   width: 170px;
 }
+
+.detectedImage{
+  padding: 10px;
+  flex: 50%
+
+}

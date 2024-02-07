@@ -169,7 +169,7 @@ export default function VideoPlayer3() {
       }
     )
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then(() => console.log("Toggle lights finished"));
   }
 
   const s3 = new AWS.S3();
@@ -273,10 +273,10 @@ export default function VideoPlayer3() {
         var div = document.getElementById("noFishDetected");
         div.style.display = "block";
       } else {
-        console.log("da isch ja was schönes");
+
         var div = document.getElementById("fishDetected");
-        div.style.display = "block";
-        console.log(difference);
+        div.style.display = "flex";
+
         for (var elem in difference) {
           var imgSrc = difference[elem];
           var image = new Image();
