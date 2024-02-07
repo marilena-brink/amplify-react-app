@@ -5,11 +5,6 @@ import * as dashjs from "dashjs";
 import axios from "axios";
 import { SlInfo } from "react-icons/sl";
 
-import { list } from "aws-amplify/storage";
-import { Storage } from "aws-amplify";
-
-//Connect to aws storage, to cennect to s3 bucket
-import { uploadData } from "aws-amplify/storage";
 
 export default function VideoPlayer3() {
   // Import AWS SDK
@@ -331,27 +326,29 @@ export default function VideoPlayer3() {
         />
       </div>
 
-      <div>
+      <div id="buttons_div">
+
+
         <button id="detectBtn" className="button detect" onClick={detect}>
           Detect fishies
         </button>
-        <button className="button reload" onClick={reloadPage}>
+        <button id="reloadBtn" className="button reload" onClick={reloadPage}>
           Reload Stream
         </button>
-        <br />
-        <button className="button light" onClick={toggleLights}>
+        
+        <div id="lights_div">       
+          <button className="button light" onClick={toggleLights}>
           Toggle Lights
-        </button>
-
-        <label style={{ color: "white" }}>
-          Passcode:{" "}
+          </button>
+          <br />
           <input
             className="passcode"
             id="passcode"
             placeholder="Enter passcode"
             type="password"
           />
-        </label>
+        </div>
+        
       </div>
 
       <div className="textDiv">
