@@ -35,6 +35,7 @@ export default function VideoPlayer3() {
   // Set stream name, set initial states of src url null
   const streamName = "OnlyFish";
   const [src, setSrc] = useState(null);
+  const [isDisabled, setDisabled] = useState(false);
 
   // Async function to fetch the endpoint of the kinesis stream (Dash URL)
   async function getDashUrl() {
@@ -261,7 +262,6 @@ export default function VideoPlayer3() {
 
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-    const [isDisabled, setDisabled] = useState(false);
     setDisabled(!isDisabled);
 
     console.log("Starting Timeout ...");
