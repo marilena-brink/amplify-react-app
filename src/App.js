@@ -262,13 +262,13 @@ export default function VideoPlayer3() {
 
   //Function to set timeout, because of fish detection with duration of 30 seconds
   async function timeout() {
-    setDisabled(!isDisabled);
+    setDisabled(true);
 
     console.log("Starting Timeout ...");
     await new Promise((resolve) => setTimeout(resolve, 120000));
     console.log("Timeout finished ...");
 
-    setDisabled(!isDisabled);
+    setDisabled(false);
   }
 
   const imageRef_1 = useRef();
