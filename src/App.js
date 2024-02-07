@@ -272,7 +272,7 @@ export default function VideoPlayer3() {
       } else {
         console.log("da isch ja was schönes");
         console.log(difference);
-        for (elem in difference) {
+        for (var elem in difference) {
           var imgSrc = difference[elem];
           var image = new Image();
           image.src = imgSrc;
