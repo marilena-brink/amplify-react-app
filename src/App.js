@@ -282,6 +282,8 @@ export default function VideoPlayer3() {
         console.log("da isch ja was schönes");
         console.log(difference);
         for (var elem in difference) {
+          var div = document.getElementById("fishDetected");
+          div.style.display = "block";
           var imgSrc = difference[elem];
           var image = new Image();
           image.src = imgSrc;
